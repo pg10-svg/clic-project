@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Results – CLIC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy:       #1a2e4a;
+      --navy-dark:  #111f33;
+      --navy-mid:   #243d5c;
+      --gold:       #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-pale:  #f5edda;
+      --text:       #1c1c2e;
+      --text-muted: #5a6275;
+      --bg:         #f8f7f4;
+      --white:      #ffffff;
+      --border:     #ddd8ce;
+      --sidebar-w:  240px;
+      --radius:     6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ====== SIDEBAR ====== */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-brand { padding: 28px 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-brand .brand-title { font-family: 'Playfair Display', serif; font-size: 1.5em; font-weight: 700; color: var(--gold); letter-spacing: 0.02em; line-height: 1.1; }
+    .sidebar-brand .brand-sub { font-size: 0.72em; color: rgba(255,255,255,0.45); margin-top: 5px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .sidebar-nav { padding: 20px 0; flex: 1; }
+    .sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 11px 24px; font-size: 0.88em; font-weight: 600; letter-spacing: 0.04em; color: rgba(255,255,255,0.6); text-transform: uppercase; transition: background 0.15s, color 0.15s; border-left: 3px solid transparent; }
+    .sidebar-nav a:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.9); }
+    .sidebar-nav a.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,168,76,0.08); }
+
+    .sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-footer span { font-size: 0.68em; color: rgba(255,255,255,0.25); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ====== MAIN ====== */
+    .main-content { flex: 1; display: flex; flex-direction: column; }
+
+    /* ====== PAGE HEADER ====== */
+    .page-header {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 60%, #2a4a6e 100%);
+      padding: 36px 48px 32px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .page-header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 280px; height: 280px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.1); pointer-events: none; }
+
+    .page-header .eyebrow { font-size: 0.72em; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; font-weight: 600; }
+    .page-header h1 { font-family: 'Playfair Display', serif; font-size: 1.8em; font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 6px; }
+    .page-header .result-stats { font-size: 0.85em; color: rgba(255,255,255,0.45); }
+    .page-header .result-stats span { color: var(--gold); font-weight: 600; }
+
+    /* ====== TWO-PANEL ====== */
+    .workspace { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+
+    /* Left filter panel */
+    .filter-panel {
+      width: 220px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      background: var(--white);
+      overflow-y: auto;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .filter-section-title {
+      font-size: 0.7em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      cursor: pointer;
+      font-size: 0.87em;
+      color: var(--text-muted);
+      transition: color 0.12s;
+      user-select: none;
+    }
+
+    .filter-option:hover { color: var(--navy); }
+
+    .filter-option input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      background: var(--bg);
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: all 0.12s;
+      position: relative;
+    }
+
+    .filter-option input[type="checkbox"]:checked {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .filter-option input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 3px; top: 1px;
+      width: 5px; height: 8px;
+      border: 1.5px solid white;
+      border-top: none;
+      border-left: none;
+      transform: rotate(42deg);
+    }
+
+    .filter-option .count {
+      margin-left: auto;
+      font-size: 0.75em;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1px 7px;
+    }
+
+    .filter-divider { height: 1px; background: var(--border); }
+
+    /* Sort select */
+    .sort-select {
+      width: 100%;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85em;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 7px 10px;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a6275' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+    }
+
+    .clear-btn {
+      width: 100%;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.8em;
+      font-weight: 600;
+      padding: 7px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--white);
+      color: var(--text-muted);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.12s;
+    }
+
+    .clear-btn:hover { border-color: var(--navy); color: var(--navy); }
+
+    /* Country searchable list */
+    .country-search-wrap {
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .country-search-input {
+      width: 100%;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.83em;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 6px 10px 6px 28px;
+      outline: none;
+      transition: border-color 0.12s;
+    }
+
+    .country-search-input:focus { border-color: var(--navy); }
+
+    .country-search-wrap::before {
+      content: '';
+      position: absolute;
+      left: 9px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16' fill='none'%3E%3Ccircle cx='6.5' cy='6.5' r='4.5' stroke='%235a6275' stroke-width='1.5'/%3E%3Cpath d='M10.5 10.5L14 14' stroke='%235a6275' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      pointer-events: none;
+    }
+
+    .country-checkbox-list {
+      max-height: 200px;
+      overflow-y: auto;
+      /* thin scrollbar */
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .country-checkbox-list::-webkit-scrollbar { width: 4px; }
+    .country-checkbox-list::-webkit-scrollbar-track { background: transparent; }
+    .country-checkbox-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .country-no-results {
+      font-size: 0.78em;
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 4px 0;
+    }
+
+    /* Right results panel */
+    .results-panel { flex: 1; overflow-y: auto; padding: 24px 32px; }
+
+    /* ====== CASE CARDS ====== */
+    .case-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px 24px;
+      align-items: start;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .case-card:hover { border-color: var(--navy); box-shadow: 0 2px 12px rgba(26,46,74,0.07); }
+
+    .case-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05em;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .case-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 18px;
+      margin-bottom: 8px;
+    }
+
+    .meta-item { font-size: 0.84em; color: var(--text-muted); }
+    .meta-item strong { color: var(--text); font-weight: 600; }
+
+    .crime-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+
+    .crime-tag {
+      font-size: 0.72em;
+      font-weight: 700;
+      background: var(--gold-pale);
+      color: var(--navy);
+      padding: 2px 9px;
+      border-radius: 20px;
+      border: 1px solid rgba(201,168,76,0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .area-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+
+    .area-tag {
+      font-size: 0.72em;
+      font-weight: 600;
+      background: #eef4fb;
+      color: #1a3a5c;
+      padding: 2px 9px;
+      border-radius: 20px;
+      border: 1px solid #bed0e8;
+      letter-spacing: 0.03em;
+    }
+
+    /* Snippet */
+    .snippet {
+      font-size: 0.84em;
+      color: var(--text-muted);
+      line-height: 1.6;
+      border-left: 2px solid var(--gold);
+      padding-left: 10px;
+      margin-top: 4px;
+    }
+
+    /* Highlight mark */
+    mark {
+      background: #fff3cd;
+      color: var(--navy-dark);
+      border-radius: 2px;
+      padding: 0 2px;
+      font-weight: 700;
+    }
+
+    .btn-view {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 0.8em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: var(--radius);
+      transition: background 0.15s;
+      white-space: nowrap;
+      align-self: flex-start;
+    }
+
+    .btn-view:hover { background: var(--navy-mid); }
+
+    /* Empty / loading states */
+    .state-msg {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--text-muted);
+      font-size: 0.9em;
+      line-height: 1.6;
+    }
+
+    .state-msg strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    /* Active filter chips in header area */
+    .active-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .active-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78em;
+      font-weight: 600;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 20px;
+      padding: 3px 10px 3px 12px;
+    }
+
+    .active-chip button {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.6);
+      cursor: pointer;
+      font-size: 1em;
+      line-height: 1;
+      padding: 0;
+      transition: color 0.12s;
+    }
+
+    .active-chip button:hover { color: var(--white); }
+  </style>
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-title">CLIC</div>
+      <div class="brand-sub">International Criminal Law</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="active">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Search CLIC
+      </a>
+      <a href="legislation.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 6h6M5 9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Legislation
+      </a>
+      <a href="about.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v5M8 5.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        About CLIC
+      </a>
+      <a href="resources.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4h10M3 8h7M3 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Other Resources
+      </a>
+    </nav>
+    <div class="sidebar-footer"><span>Case Law Database</span></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <div class="page-header">
+      <div class="eyebrow" id="query-eyebrow">Search Results</div>
+      <h1 id="query-heading">Loading…</h1>
+      <div class="result-stats">Showing <span id="shown-count">–</span> of <span id="total-count">–</span> cases</div>
+    </div>
+
+    <div class="workspace">
+
+      <!-- FILTER PANEL -->
+      <div class="filter-panel">
+
+        <div>
+          <div class="filter-section-title">Sort</div>
+          <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+            <option value="relevance">Relevance</option>
+            <option value="date-desc">Date (newest first)</option>
+            <option value="date-asc">Date (oldest first)</option>
+            <option value="country">Country (A–Z)</option>
+          </select>
+        </div>
+
+        <div class="filter-divider"></div>
+
+        <div>
+          <div class="filter-section-title">Crime / Issue</div>
+          <div id="crime-filters"></div>
+        </div>
+
+        <div class="filter-divider"></div>
+
+        <div>
+          <div class="filter-section-title">Country</div>
+          <div class="country-search-wrap">
+            <input type="text" id="country-search" class="country-search-input" placeholder="Search countries…" oninput="filterCountryList()">
+          </div>
+          <div id="country-filters" class="country-checkbox-list"></div>
+          <div id="country-no-results" class="country-no-results" style="display:none;">No matches</div>
+        </div>
+
+        <div class="filter-divider"></div>
+
+        <div id="area-filter-section">
+          <div class="filter-section-title">Area of Law</div>
+          <div id="area-filters"></div>
+        </div>
+
+        <div class="filter-divider"></div>
+
+        <button class="clear-btn" onclick="clearFilters()">Clear all filters</button>
+
+      </div>
+
+      <!-- RESULTS PANEL -->
+      <div class="results-panel" id="results-panel">
+        <div class="state-msg" id="state-msg">
+          <strong>Loading cases…</strong>
+        </div>
+        <div id="active-filters" class="active-filters"></div>
+        <div id="results-container"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── State ──
+  let allCases = [];
+  let filteredCases = [];
+  let selectedCrimes = new Set();
+  let selectedCountries = new Set();
+  let selectedAreas = new Set();
+  let query = '';
+  let keywords = [];
+
+  const params = new URLSearchParams(window.location.search);
+  query = params.get('q') || '';
+  keywords = query.toLowerCase().split(/\s+/).filter(k => k.length > 1);
+
+  document.getElementById('query-eyebrow').textContent = query ? `Results for "${query}"` : 'All Cases';
+  document.getElementById('query-heading').textContent = query ? `Search Results` : 'Browse All Cases';
+
+  // ── Fetch ──
+  fetch('/cases/index.json')
+    .then(r => r.json())
+    .then(cases => {
+      allCases = cases;
+      document.getElementById('total-count').textContent = cases.length;
+      buildFilterOptions(cases);
+      applyFilters();
+    })
+    .catch(() => {
+      document.getElementById('state-msg').innerHTML = '<strong>Error loading cases</strong><br>Could not load index.json.';
+    });
+
+  // ── Build filter checkboxes ──
+  function buildFilterOptions(cases) {
+    // Crimes
+    const crimeMap = new Map();
+    cases.forEach(c => {
+      const crimes = Array.isArray(c.crime_issue) ? c.crime_issue : [c.crime_issue];
+      crimes.forEach(cr => crimeMap.set(cr, (crimeMap.get(cr) || 0) + 1));
+    });
+
+    const crimeOrder = ['Genocide', 'Crimes Against Humanity', 'War Crimes', 'Aggression', 'Jurisdiction', 'Immunities'];
+    const crimeKeys = [...crimeOrder.filter(k => crimeMap.has(k)), ...[...crimeMap.keys()].filter(k => !crimeOrder.includes(k))];
+
+    const crimeEl = document.getElementById('crime-filters');
+    crimeKeys.forEach(cr => {
+      crimeEl.appendChild(makeCheckbox(cr, crimeMap.get(cr) || 0, 'crime', toggleCrime));
+    });
+
+    // Countries (sorted alphabetically)
+    const countryMap = new Map();
+    cases.forEach(c => countryMap.set(c.country, (countryMap.get(c.country) || 0) + 1));
+    const countries = [...countryMap.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+
+    const countryEl = document.getElementById('country-filters');
+    countries.forEach(([country, count]) => {
+      countryEl.appendChild(makeCheckbox(country, count, 'country', toggleCountry));
+    });
+
+    // Area of law (sorted alphabetically)
+    const areaMap = new Map();
+    cases.forEach(c => {
+      const areas = Array.isArray(c.area_of_law) ? c.area_of_law : [c.area_of_law].filter(Boolean);
+      areas.forEach(a => areaMap.set(a, (areaMap.get(a) || 0) + 1));
+    });
+    const areas = [...areaMap.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+
+    const areaEl = document.getElementById('area-filters');
+    if (areas.length > 0) {
+      areas.forEach(([area, count]) => {
+        areaEl.appendChild(makeCheckbox(area, count, 'area', toggleArea));
+      });
+    } else {
+      // Hide the section if no area_of_law data exists yet
+      document.getElementById('area-filter-section').style.display = 'none';
+    }
+  }
+
+  function makeCheckbox(label, count, type, handler) {
+    const div = document.createElement('label');
+    div.className = 'filter-option';
+    div.innerHTML = `
+      <input type="checkbox" data-value="${label}" data-type="${type}">
+      <span>${label}</span>
+      <span class="count">${count}</span>
+    `;
+    div.querySelector('input').addEventListener('change', handler);
+    return div;
+  }
+
+  function toggleCrime(e) {
+    const val = e.target.dataset.value;
+    e.target.checked ? selectedCrimes.add(val) : selectedCrimes.delete(val);
+    applyFilters();
+  }
+
+  function toggleCountry(e) {
+    const val = e.target.dataset.value;
+    e.target.checked ? selectedCountries.add(val) : selectedCountries.delete(val);
+    applyFilters();
+  }
+
+  function toggleArea(e) {
+    const val = e.target.dataset.value;
+    e.target.checked ? selectedAreas.add(val) : selectedAreas.delete(val);
+    applyFilters();
+  }
+
+  function filterCountryList() {
+    const term = document.getElementById('country-search').value.toLowerCase();
+    const items = document.querySelectorAll('#country-filters .filter-option');
+    let visible = 0;
+    items.forEach(item => {
+      const label = item.querySelector('span').textContent.toLowerCase();
+      const match = label.includes(term);
+      item.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    document.getElementById('country-no-results').style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  function clearFilters() {
+    selectedCrimes.clear();
+    selectedCountries.clear();
+    selectedAreas.clear();
+    document.querySelectorAll('.filter-option input').forEach(cb => cb.checked = false);
+    // Reset country search
+    document.getElementById('country-search').value = '';
+    filterCountryList();
+    applyFilters();
+  }
+
+  // ── Core filter + sort + render ──
+  function applyFilters() {
+    const sort = document.getElementById('sortSelect').value;
+
+    // 1. Text match
+    let results = allCases.filter(c => {
+      if (keywords.length === 0) return true;
+      const haystack = [
+        c.clic_number,
+        c.country,
+        c.court,
+        Array.isArray(c.crime_issue) ? c.crime_issue.join(' ') : c.crime_issue,
+        c.abstract_text || '',
+        Array.isArray(c.keywords) ? c.keywords.join(' ') : (c.keywords || ''),
+        Array.isArray(c.area_of_law) ? c.area_of_law.join(' ') : (c.area_of_law || '')
+      ].join(' ').toLowerCase();
+      return keywords.every(k => haystack.includes(k));
+    });
+
+    // 2. Crime filter
+    if (selectedCrimes.size > 0) {
+      results = results.filter(c => {
+        const crimes = Array.isArray(c.crime_issue) ? c.crime_issue : [c.crime_issue];
+        return [...selectedCrimes].some(sel => crimes.includes(sel));
+      });
+    }
+
+    // 3. Country filter
+    if (selectedCountries.size > 0) {
+      results = results.filter(c => selectedCountries.has(c.country));
+    }
+
+    // 4. Area of law filter
+    if (selectedAreas.size > 0) {
+      results = results.filter(c => {
+        const areas = Array.isArray(c.area_of_law) ? c.area_of_law : [c.area_of_law].filter(Boolean);
+        return [...selectedAreas].some(sel => areas.includes(sel));
+      });
+    }
+
+    // 5. Sort
+    if (sort === 'date-desc') {
+      results.sort((a, b) => new Date(b.decision_date) - new Date(a.decision_date));
+    } else if (sort === 'date-asc') {
+      results.sort((a, b) => new Date(a.decision_date) - new Date(b.decision_date));
+    } else if (sort === 'country') {
+      results.sort((a, b) => a.country.localeCompare(b.country));
+    }
+    // 'relevance' = natural index order (already filtered by keyword match)
+
+    filteredCases = results;
+    document.getElementById('shown-count').textContent = results.length;
+    renderActiveFilters();
+    renderResults(results);
+  }
+
+  // ── Active filter chips ──
+  function renderActiveFilters() {
+    const el = document.getElementById('active-filters');
+    el.innerHTML = '';
+
+    selectedCrimes.forEach(cr => {
+      el.appendChild(makeChip(cr, () => {
+        selectedCrimes.delete(cr);
+        document.querySelector(`input[data-type="crime"][data-value="${CSS.escape(cr)}"]`).checked = false;
+        applyFilters();
+      }));
+    });
+
+    selectedCountries.forEach(co => {
+      el.appendChild(makeChip(co, () => {
+        selectedCountries.delete(co);
+        document.querySelector(`input[data-type="country"][data-value="${CSS.escape(co)}"]`).checked = false;
+        applyFilters();
+      }));
+    });
+
+    selectedAreas.forEach(ar => {
+      el.appendChild(makeChip(ar, () => {
+        selectedAreas.delete(ar);
+        document.querySelector(`input[data-type="area"][data-value="${CSS.escape(ar)}"]`).checked = false;
+        applyFilters();
+      }));
+    });
+  }
+
+  function makeChip(label, onRemove) {
+    const chip = document.createElement('span');
+    chip.className = 'active-chip';
+    chip.innerHTML = `${label}<button title="Remove filter">✕</button>`;
+    chip.querySelector('button').onclick = onRemove;
+    return chip;
+  }
+
+  // ── Snippet extractor with highlighting ──
+  function makeSnippet(text, keywords) {
+    if (!text || keywords.length === 0) return null;
+    const lower = text.toLowerCase();
+
+    // Find first keyword hit position
+    let bestPos = -1;
+    for (const kw of keywords) {
+      const idx = lower.indexOf(kw);
+      if (idx !== -1 && (bestPos === -1 || idx < bestPos)) bestPos = idx;
+    }
+
+    if (bestPos === -1) return null;
+
+    // Extract ~200 chars around hit
+    const start = Math.max(0, bestPos - 80);
+    const end   = Math.min(text.length, bestPos + 160);
+    let excerpt = (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
+
+    // Highlight all keywords
+    keywords.forEach(kw => {
+      const re = new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      excerpt = excerpt.replace(re, m => `<mark>${m}</mark>`);
+    });
+
+    return excerpt;
+  }
+
+  // ── Render results ──
+  function renderResults(cases) {
+    const container = document.getElementById('results-container');
+    const stateMsg  = document.getElementById('state-msg');
+    container.innerHTML = '';
+
+    if (cases.length === 0) {
+      stateMsg.style.display = 'block';
+      stateMsg.innerHTML = '<strong>No results found</strong>Try adjusting your search term or clearing some filters.';
+      return;
+    }
+
+    stateMsg.style.display = 'none';
+
+    cases.forEach(c => {
+      const crimes = Array.isArray(c.crime_issue) ? c.crime_issue : [c.crime_issue];
+      const tagsHtml = crimes.map(cr => `<span class="crime-tag">${cr}</span>`).join('');
+      const areas = Array.isArray(c.area_of_law) ? c.area_of_law : [c.area_of_law].filter(Boolean);
+      const areaHtml = areas.length > 0
+        ? `<div class="area-tags">${areas.map(a => `<span class="area-tag">${a}</span>`).join('')}</div>`
+        : '';
+      const snippet  = makeSnippet(c.abstract_text || '', keywords);
+
+      const card = document.createElement('div');
+      card.className = 'case-card';
+      card.innerHTML = `
+        <div>
+          <div class="case-number">${highlight(c.clic_number, keywords)}</div>
+          <div class="case-meta">
+            <div class="meta-item"><strong>Country:</strong> ${highlight(c.country, keywords)}</div>
+            <div class="meta-item"><strong>Court:</strong> ${highlight(c.court, keywords)}</div>
+            <div class="meta-item"><strong>Date:</strong> ${c.decision_date}</div>
+          </div>
+          <div class="crime-tags">${tagsHtml}</div>
+          ${areaHtml}
+          ${snippet ? `<div class="snippet">${snippet}</div>` : ''}
+        </div>
+        <a href="${c.case_url}" class="btn-view">
+          View
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function highlight(text, keywords) {
+    if (!text || keywords.length === 0) return text;
+    let out = text;
+    keywords.forEach(kw => {
+      const re = new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      out = out.replace(re, m => `<mark>${m}</mark>`);
+    });
+    return out;
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jurisdiction – CLIC Case Law</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy:       #1a2e4a;
+      --navy-dark:  #111f33;
+      --navy-mid:   #243d5c;
+      --gold:       #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-pale:  #f5edda;
+      --text:       #1c1c2e;
+      --text-muted: #5a6275;
+      --bg:         #f8f7f4;
+      --white:      #ffffff;
+      --border:     #ddd8ce;
+      --sidebar-w:  240px;
+      --radius:     6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ====== SIDEBAR ====== */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .sidebar-brand {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-brand .brand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5em;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+    }
+
+    .sidebar-brand .brand-sub {
+      font-size: 0.72em;
+      color: rgba(255,255,255,0.45);
+      margin-top: 5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-nav { padding: 20px 0; flex: 1; }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 24px;
+      font-size: 0.88em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+      cursor: pointer;
+    }
+
+    .sidebar-nav a:hover {
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.9);
+    }
+
+    .sidebar-nav a.active {
+      color: var(--gold);
+      border-left-color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-footer span {
+      font-size: 0.68em;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ====== MAIN CONTENT ====== */
+    .main-content { flex: 1; display: flex; flex-direction: column; }
+
+    /* ====== PAGE HEADER ====== */
+    .page-header {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 60%, #2a4a6e 100%);
+      padding: 40px 48px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.1);
+      pointer-events: none;
+    }
+
+    .page-header .eyebrow {
+      font-size: 0.72em;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2em;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .page-header .page-desc {
+      font-size: 0.88em;
+      color: rgba(255,255,255,0.5);
+      max-width: 560px;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .page-header .case-count {
+      font-size: 0.85em;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .page-header .case-count span {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ====== CONTENT AREA ====== */
+    .content-area { padding: 32px 48px; flex: 1; }
+
+    /* ====== FILTER BAR ====== */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      margin-bottom: 28px;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filter-group label {
+      font-size: 0.82em;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .filter-group select {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9em;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 7px 32px 7px 12px;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6275' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: border-color 0.15s;
+    }
+
+    .filter-group select:focus { border-color: var(--navy); }
+
+    /* ====== CASE CARDS ====== */
+    .case-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px 24px;
+      align-items: start;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .case-card:hover {
+      border-color: var(--navy);
+      box-shadow: 0 2px 12px rgba(26,46,74,0.08);
+    }
+
+    .case-card-left { display: flex; flex-direction: column; gap: 6px; }
+
+    .case-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05em;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .case-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+    }
+
+    .meta-item {
+      font-size: 0.85em;
+      color: var(--text-muted);
+    }
+
+    .meta-item strong {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .crime-tag {
+      display: inline-block;
+      font-size: 0.75em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      background: var(--gold-pale);
+      color: var(--navy);
+      border: 1px solid rgba(201,168,76,0.35);
+      border-radius: 20px;
+      padding: 2px 10px;
+    }
+
+    .case-action { display: flex; align-items: flex-start; padding-top: 3px; }
+
+    .btn-view {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.82em;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: var(--radius);
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-view:hover { background: var(--navy-mid); }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85em;
+      color: var(--text-muted);
+      margin-top: 24px;
+      transition: color 0.15s;
+    }
+
+    .back-link:hover { color: var(--navy); }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-muted);
+      font-size: 0.95em;
+    }
+
+    /* ====== FILTER PILLS ====== */
+    .filter-pill {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.8em;
+      font-weight: 600;
+      padding: 5px 13px;
+      background: var(--white);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-pill:hover { border-color: var(--navy); color: var(--navy); }
+    .filter-pill.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  </style>
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-title">CLIC</div>
+      <div class="brand-sub">International Criminal Law</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="../index.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Search CLIC
+      </a>
+      <a href="../legislation.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 6h6M5 9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Legislation
+      </a>
+      <a href="../about.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v5M8 5.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        About CLIC
+      </a>
+      <a href="../resources.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4h10M3 8h7M3 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Other Resources
+      </a>
+    </nav>
+    <div class="sidebar-footer"><span>Case Law Database</span></div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <div class="page-header">
+      <div class="eyebrow">Crime Category</div>
+      <h1>Jurisdction</h1>
+      <p class="page-desc">Domestic court decisions applying international criminal law concerning jurisdiction.</p>
+      <p class="case-count">Showing <span id="shown-count">–</span> of <span id="total-count">–</span> cases</p>
+    </div>
+
+    <div class="content-area">
+
+      <!-- FILTER BAR -->
+      <div class="filter-bar">
+        <div class="filter-group" style="flex-wrap:wrap; align-items:center;">
+          <label>Also tagged with</label>
+          <div id="crime-pills" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+        </div>
+        <div id="area-divider" class="filter-divider" style="display:none;"></div>
+        <div class="filter-group" id="area-pill-group" style="flex-wrap:wrap; align-items:center; display:none;">
+          <label>Area of Law</label>
+          <div id="area-pills" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+        </div>
+        <div class="filter-divider"></div>
+        <div class="filter-group">
+          <label for="dateSort">Sort by date</label>
+          <select id="dateSort">
+            <option value="desc">Most recent first</option>
+            <option value="asc">Oldest first</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- CASE LIST -->
+      <div id="case-container">
+        <p class="empty-state">Loading cases…</p>
+      </div>
+
+      <a href="../index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back to homepage
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const crimeName  = "Jurisdiction";
+  const container  = document.getElementById("case-container");
+  const dateSort   = document.getElementById("dateSort");
+  const shownCount = document.getElementById("shown-count");
+  const totalCount = document.getElementById("total-count");
+
+  let allCases      = [];
+  let selectedCrime = "All"; // secondary crime tag filter
+  let selectedArea  = "All";
+
+  function hasCrime(c, crime) {
+    return Array.isArray(c.crime_issue) ? c.crime_issue.includes(crime) : c.crime_issue === crime;
+  }
+
+  function displayCrimes(c) {
+    return Array.isArray(c.crime_issue) ? c.crime_issue : [c.crime_issue];
+  }
+
+  fetch("/cases/index.json")
+    .then(r => r.json())
+    .then(cases => {
+      allCases = cases.filter(c => hasCrime(c, crimeName));
+      totalCount.textContent = allCases.length;
+      buildPills();
+      renderCases();
+    })
+    .catch(err => {
+      container.innerHTML = "<p class='empty-state'>Error loading cases.</p>";
+      console.error(err);
+    });
+
+  dateSort.addEventListener("change", renderCases);
+
+  function buildPills() {
+    // Co-occurring crime tags (excluding the primary crime itself)
+    const crimeMap = new Map();
+    allCases.forEach(c => {
+      displayCrimes(c).forEach(cr => {
+        if (cr !== crimeName) crimeMap.set(cr, (crimeMap.get(cr) || 0) + 1);
+      });
+    });
+
+    const crimePillEl = document.getElementById("crime-pills");
+
+    if (crimeMap.size === 0) {
+      // No co-occurring tags — hide this filter group entirely
+      crimePillEl.closest(".filter-group").style.display = "none";
+      crimePillEl.closest(".filter-group").nextElementSibling.style.display = "none";
+    } else {
+      const allPill = makePill("All", true, () => { selectedCrime = "All"; refreshPills("crime"); renderCases(); });
+      allPill.dataset.filter = "All";
+      crimePillEl.appendChild(allPill);
+
+      const crimeOrder = ['Crimes Against Humanity','War Crimes','Aggression','Jurisdiction','Immunities'];
+      const crimeKeys  = [...crimeOrder.filter(k => crimeMap.has(k)), ...[...crimeMap.keys()].filter(k => !crimeOrder.includes(k))];
+
+      crimeKeys.forEach(cr => {
+        const p = makePill(`${cr} (${crimeMap.get(cr)})`, false, () => {
+          selectedCrime = cr; refreshPills("crime", cr); renderCases();
+        });
+        p.dataset.filter = cr;
+        crimePillEl.appendChild(p);
+      });
+    }
+
+    // Area of law pills
+    const areaMap = new Map();
+    allCases.forEach(c => {
+      const areas = Array.isArray(c.area_of_law) ? c.area_of_law : [c.area_of_law].filter(Boolean);
+      areas.forEach(a => areaMap.set(a, (areaMap.get(a) || 0) + 1));
+    });
+
+    if (areaMap.size > 0) {
+      const areaPillEl = document.getElementById("area-pills");
+      const allAreaPill = makePill("All areas", true, () => { selectedArea = "All"; refreshPills("area"); renderCases(); });
+      allAreaPill.dataset.filter = "All";
+      areaPillEl.appendChild(allAreaPill);
+
+      [...areaMap.entries()].sort((a,b) => a[0].localeCompare(b[0])).forEach(([area, count]) => {
+        const p = makePill(`${area} (${count})`, false, () => {
+          selectedArea = area; refreshPills("area", area); renderCases();
+        });
+        p.dataset.filter = area;
+        areaPillEl.appendChild(p);
+      });
+
+      document.getElementById("area-pill-group").style.display = "flex";
+      document.getElementById("area-divider").style.display    = "block";
+    }
+  }
+
+  function makePill(label, active, onClick) {
+    const btn = document.createElement("button");
+    btn.className = "filter-pill" + (active ? " active" : "");
+    btn.textContent = label;
+    btn.onclick = onClick;
+    return btn;
+  }
+
+  function refreshPills(type, selected) {
+    const el = type === "crime" ? "crime-pills" : "area-pills";
+    document.querySelectorAll(`#${el} .filter-pill`).forEach(p => {
+      p.classList.toggle("active", p.dataset.filter === (selected || "All"));
+    });
+  }
+
+  function renderCases() {
+    let filtered = allCases.slice();
+
+    if (selectedCrime !== "All") {
+      filtered = filtered.filter(c => hasCrime(c, selectedCrime));
+    }
+
+    if (selectedArea !== "All") {
+      filtered = filtered.filter(c => {
+        const areas = Array.isArray(c.area_of_law) ? c.area_of_law : [c.area_of_law].filter(Boolean);
+        return areas.includes(selectedArea);
+      });
+    }
+
+    filtered.sort((a, b) => dateSort.value === "desc"
+      ? new Date(b.decision_date) - new Date(a.decision_date)
+      : new Date(a.decision_date) - new Date(b.decision_date)
+    );
+
+    shownCount.textContent = filtered.length;
+    container.innerHTML = "";
+
+    if (filtered.length === 0) {
+      container.innerHTML = "<p class='empty-state'>No cases available.</p>";
+      return;
+    }
+
+    filtered.forEach(c => {
+      const card = document.createElement("div");
+      card.className = "case-card";
+
+      const tags = displayCrimes(c).map(cr =>
+        `<span class="crime-tag">${cr}</span>`
+      ).join(" ");
+
+      const areaArr = Array.isArray(c.area_of_law) ? c.area_of_law : [c.area_of_law].filter(Boolean);
+      const areaHtml = areaArr.length > 0
+        ? `<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;">${areaArr.map(a => `<span style="font-size:0.72em;font-weight:600;background:#eef4fb;color:#1a3a5c;border:1px solid #bed0e8;border-radius:20px;padding:2px 9px;">${a}</span>`).join("")}</div>`
+        : "";
+
+      card.innerHTML = `
+        <div class="case-card-left">
+          <div class="case-number">${c.clic_number}</div>
+          <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:2px;">${tags}</div>
+          ${areaHtml}
+          <div class="case-meta">
+            <span class="meta-item"><strong>Country:</strong> ${c.country}</span>
+            <span class="meta-item"><strong>Court:</strong> ${c.court}</span>
+            <span class="meta-item"><strong>Date:</strong> ${c.decision_date}</span>
+          </div>
+        </div>
+        <div class="case-action">
+          <a class="btn-view" href="../${c.case_url}">
+            View
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+</script>
+</body>
+</html>

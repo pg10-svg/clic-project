@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CLIC Case 1 – Afghanistan Supreme Court</title>
+
+  <style>
+    body {
+      font-family: Times New Roman;
+      margin: 40px;
+      max-width: 900px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .metadata {
+      margin-bottom: 25px;
+    }
+
+    .metadata p {
+      margin: 4px 0;
+    }
+
+    .downloads {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #ccc;
+    }
+
+    .downloads a {
+      display: block;
+      margin: 8px 0;
+      font-weight: bold;
+    }
+
+    .navigation {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1 id="case-title">Loading case…</h1>
+
+<div class="metadata" id="case-metadata"></div>
+
+<div class="downloads" id="case-downloads"></div>
+
+<div class="navigation">
+  <a href="../countries/afghanistan.html">← Back to Afghanistan</a><br>
+  <a href="../index.html">← Back to homepage</a>
+</div>
+
+<script>
+  const caseId = "clic-0000";
+
+  const titleEl = document.getElementById("case-title");
+  const metadataEl = document.getElementById("case-metadata");
+  const downloadsEl = document.getElementById("case-downloads");
+
+  fetch("/cases/index.json")
+    .then(response => response.json())
+    .then(cases => {
+      const c = cases.find(item => item.id === caseId);
+
+      if (!c) {
+        titleEl.textContent = "Case not found";
+        return;
+      }
+
+      titleEl.textContent = c.clic_number;
+
+      metadataEl.innerHTML = `
+        <p><strong>Country:</strong> ${c.country}</p>
+        <p><strong>Court:</strong> ${c.court}</p>
+        <p><strong>Decision date:</strong> ${c.decision_date}</p>
+        <p><strong>Source:</strong> 
+           ${c.link
+           ? `<a href="${c.link}" target="_blank" rel="noopener">Link</a>`
+           : `<em>No source link available</em>`
+           }
+        <p><strong>Crime / Issue:</strong> ${
+          Array.isArray(c.crime_issue)
+            ? c.crime_issue.join(", ")
+            : c.crime_issue
+        }</p>
+      `;
+
+      downloadsEl.innerHTML = `
+        <h2>Documents</h2>
+        <a href="../${c.abstract_pdf}" target="_blank">
+          Abstract (English, PDF)
+        </a>
+        <a href="../${c.full_pdf}" target="_blank">
+          Full decision (original language, PDF)
+        </a>
+      `;
+    })
+    .catch(error => {
+      titleEl.textContent = "Error loading case";
+      console.error(error);
+    });
+</script>
+
+</body>
+</html>

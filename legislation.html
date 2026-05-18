@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CLIC – Implementing Legislation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ====== DESIGN TOKENS ====== */
+    :root {
+      --navy:       #1a2e4a;
+      --navy-dark:  #111f33;
+      --navy-mid:   #243d5c;
+      --gold:       #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-pale:  #f5edda;
+      --text:       #1c1c2e;
+      --text-muted: #5a6275;
+      --bg:         #f8f7f4;
+      --white:      #ffffff;
+      --border:     #ddd8ce;
+      --sidebar-w:  240px;
+      --radius:     6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ====== LAYOUT ====== */
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ====== SIDEBAR ====== */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-brand {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-brand .brand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5em;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+    }
+
+    .sidebar-brand .brand-sub {
+      font-size: 0.72em;
+      color: rgba(255,255,255,0.45);
+      margin-top: 5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-nav { padding: 20px 0; flex: 1; }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 24px;
+      font-size: 0.88em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+      cursor: pointer;
+    }
+
+    .sidebar-nav a:hover {
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.9);
+    }
+
+    .sidebar-nav a.active {
+      color: var(--gold);
+      border-left-color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-footer span {
+      font-size: 0.68em;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar { width: 180px; }
+      .sidebar-brand .brand-sub { display: none; }
+      .sidebar-nav a { padding: 10px 16px; font-size: 0.8em; }
+    }
+
+    @media (max-width: 600px) {
+      .sidebar { display: none; }
+    }
+
+    /* ====== MAIN CONTENT ====== */
+    .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
+
+    /* Fill viewport height only when wide enough for two-panel split */
+    @media (min-width: 900px) {
+      html, body { height: 100%; }
+      .layout { height: 100%; }
+    }
+
+    /* ====== PAGE HEADER ====== */
+    .page-header {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 60%, #2a4a6e 100%);
+      padding: 40px 48px 36px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.1);
+      pointer-events: none;
+    }
+
+    .page-header .eyebrow {
+      font-size: 0.72em;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2em;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .page-header .page-desc {
+      font-size: 0.88em;
+      color: rgba(255,255,255,0.5);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+      .page-header { padding: 28px 24px; }
+      .page-header h1 { font-size: 1.5em; }
+    }
+
+    /* ====== TWO-PANEL SPLIT ====== */
+    .content-area {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* Left panel: scrollable selector */
+    .selector-panel {
+      width: 380px;
+      flex-shrink: 0;
+      overflow-y: auto;
+      padding: 28px 32px;
+      border-right: 1px solid var(--border);
+    }
+
+    /* Right panel: always visible output */
+    .output-panel {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* ====== RESPONSIVE: medium screens (split-screen / tablet) ====== */
+    @media (max-width: 1100px) {
+      .selector-panel { width: 300px; padding: 20px; }
+      .output-panel { padding: 20px; }
+    }
+
+    /* ====== RESPONSIVE: small screens — stack vertically ====== */
+    @media (max-width: 900px) {
+      /* Allow page to scroll naturally */
+      html, body { height: auto; }
+      .layout { height: auto; min-height: 100vh; }
+      .main-content { overflow: visible; }
+
+      .content-area {
+        flex-direction: column;
+        overflow: visible;
+        height: auto;
+      }
+
+      .selector-panel {
+        width: 100%;
+        overflow-y: visible;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 20px 24px;
+      }
+
+      .output-panel {
+        overflow-y: visible;
+        padding: 20px 24px;
+        min-height: 200px;
+      }
+    }
+
+    .output-placeholder {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--text-muted);
+      gap: 12px;
+      padding: 48px 24px;
+    }
+
+    .output-placeholder .placeholder-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gold-pale);
+      border: 1px solid rgba(201,168,76,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 4px;
+    }
+
+    .output-placeholder p {
+      font-size: 0.9em;
+      line-height: 1.6;
+      max-width: 260px;
+    }
+
+    .output-placeholder strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05em;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    /* ====== SECTION HEADER ====== */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .section-label {
+      font-size: 0.72em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .section-divider {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ====== CRIME SELECTOR ====== */
+    .crime-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .crime-selector button {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.88em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 9px 20px;
+      background: var(--white);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+
+    .crime-selector button:hover {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    .crime-selector button.active {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+
+    /* ====== COUNTRY SELECTOR ====== */
+    .country-selector { margin-bottom: 36px; }
+
+    .letter-selection { display: flex; align-items: baseline; gap: 16px; margin-bottom: 14px; }
+
+    .letter-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05em;
+      font-weight: 700;
+      color: var(--navy);
+      width: 18px;
+      flex-shrink: 0;
+    }
+
+    .countries-row { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    /* Base country button */
+    .country-selector button {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.82em;
+      font-weight: 600;
+      padding: 5px 13px;
+      background: var(--white);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+
+    .country-selector button:hover {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    /* Has legislation → gold accent */
+    .country-selector button.has-legislation {
+      background: var(--gold-pale);
+      color: var(--navy);
+      border-color: rgba(201,168,76,0.5);
+      font-weight: 700;
+    }
+
+    .country-selector button.has-legislation:hover {
+      background: var(--gold-light);
+      border-color: var(--gold);
+    }
+
+    /* Active selection */
+    .country-selector button.active {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+
+    /* ====== LEGEND ====== */
+    .legend {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8em;
+      color: var(--text-muted);
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .legend-dot.has { background: var(--gold-pale); border-color: rgba(201,168,76,0.5); }
+    .legend-dot.no  { background: var(--white); }
+
+    /* ====== LEGISLATION BOX ====== */
+    .legislation-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-top: 4px;
+      overflow: hidden;
+    }
+
+    /* Variant pill buttons (UK / Belgium style) */
+    .variant-bar {
+      display: flex;
+      gap: 8px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .variant-bar button {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85em;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .variant-bar button:hover { border-color: var(--navy); color: var(--navy); }
+    .variant-bar button.active-variant {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+
+    /* Meta info inside legislation box */
+    .leg-meta {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88em;
+      color: var(--text-muted);
+    }
+
+    .leg-meta strong { color: var(--text); }
+    .leg-meta a { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; }
+    .leg-meta a:hover { color: var(--gold); }
+    .leg-meta em { font-style: italic; color: var(--text-muted); }
+
+    /* Section tabs */
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      background: var(--bg);
+      overflow-x: auto;
+    }
+
+    .tab-bar button {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85em;
+      font-weight: 600;
+      padding: 10px 16px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      margin-bottom: -1px;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .tab-bar button:hover { color: var(--navy); }
+    .tab-bar button.active-tab {
+      color: var(--navy);
+      border-bottom-color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* Text columns */
+    .legislation-body { padding: 20px; }
+
+    .flex-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .text-col {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .text-col-label {
+      font-size: 0.75em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .text-content {
+      white-space: pre-wrap;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      font-size: 0.9em;
+      line-height: 1.75;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    /* Collapsed / expanded */
+    .content-wrapper {
+      position: relative;
+    }
+
+    .text-collapsed {
+      max-height: 260px;
+      overflow: hidden;
+    }
+
+    .text-collapsed::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 60px;
+      background: linear-gradient(transparent, var(--bg));
+      border-radius: 0 0 var(--radius) var(--radius);
+    }
+
+    .text-expanded { max-height: none !important; }
+    .text-expanded::after { display: none; }
+
+    .read-more-btn {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      padding: 9px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85em;
+      font-weight: 600;
+      color: var(--navy);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .read-more-btn:hover { background: var(--gold-pale); border-color: rgba(201,168,76,0.4); }
+
+    /* Empty state */
+    .leg-empty {
+      padding: 32px 20px;
+      color: var(--text-muted);
+      font-size: 0.9em;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-title">CLIC</div>
+      <div class="brand-sub">International Criminal Law</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Search CLIC
+      </a>
+      <a class="active" href="legislation.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 6h6M5 9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Legislation
+      </a>
+      <a href="about.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v5M8 5.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        About CLIC
+      </a>
+      <a href="resources.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4h10M3 8h7M3 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Other Resources
+      </a>
+    </nav>
+    <div class="sidebar-footer"><span>Case Law Database</span></div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <div class="page-header">
+      <div class="eyebrow">Reference</div>
+      <h1>Domestic Implementing Legislation</h1>
+      <p class="page-desc">Select a crime category and a country to view the relevant domestic implementing legislation.</p>
+    </div>
+
+    <div class="content-area">
+
+      <!-- LEFT: SELECTOR PANEL -->
+      <div class="selector-panel">
+
+      <!-- CRIME SELECTOR -->
+      <div class="section-header">
+        <span class="section-label">Crime category</span>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="crime-selector">
+        <button class="active" onclick="selectCrime('genocide', this)">Genocide</button>
+        <button onclick="selectCrime('crimes_against_humanity', this)">Crimes against Humanity</button>
+        <button onclick="selectCrime('war_crimes', this)">War Crimes</button>
+        <button onclick="selectCrime('aggression', this)">Aggression</button>
+      </div>
+
+      <!-- COUNTRY SELECTOR -->
+      <div class="section-header">
+        <span class="section-label">Country</span>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot has"></div>
+          Legislation available
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot no"></div>
+          No legislation on record
+        </div>
+      </div>
+
+      <div class="country-selector">
+
+        <div class="letter-selection"><span class="letter-label">A</span><div class="countries-row">
+          <button onclick="selectCountry('Afghanistan', this)">Afghanistan</button>
+          <button onclick="selectCountry('Albania', this)">Albania</button>
+          <button onclick="selectCountry('Algeria', this)">Algeria</button>
+          <button onclick="selectCountry('Andorra', this)">Andorra</button>
+          <button onclick="selectCountry('Angola', this)">Angola</button>
+          <button onclick="selectCountry('Antigua and Barbuda', this)">Antigua and Barbuda</button>
+          <button onclick="selectCountry('Argentina', this)">Argentina</button>
+          <button onclick="selectCountry('Armenia', this)">Armenia</button>
+          <button onclick="selectCountry('Australia', this)">Australia</button>
+          <button onclick="selectCountry('Austria', this)">Austria</button>
+          <button onclick="selectCountry('Azerbaijan', this)">Azerbaijan</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">B</span><div class="countries-row">
+          <button onclick="selectCountry('Bahamas', this)">Bahamas</button>
+          <button onclick="selectCountry('Bahrain', this)">Bahrain</button>
+          <button onclick="selectCountry('Bangladesh', this)">Bangladesh</button>
+          <button onclick="selectCountry('Barbados', this)">Barbados</button>
+          <button onclick="selectCountry('Belarus', this)">Belarus</button>
+          <button onclick="selectCountry('Belgium', this)">Belgium</button>
+          <button onclick="selectCountry('Belize', this)">Belize</button>
+          <button onclick="selectCountry('Benin', this)">Benin</button>
+          <button onclick="selectCountry('Bhutan', this)">Bhutan</button>
+          <button onclick="selectCountry('Bolivia', this)">Bolivia</button>
+          <button onclick="selectCountry('Bosnia and Herzegovina', this)">Bosnia and Herzegovina</button>
+          <button onclick="selectCountry('Botswana', this)">Botswana</button>
+          <button onclick="selectCountry('Brazil', this)">Brazil</button>
+          <button onclick="selectCountry('Brunei Darussalam', this)">Brunei Darussalam</button>
+          <button onclick="selectCountry('Bulgaria', this)">Bulgaria</button>
+          <button onclick="selectCountry('Burkina Faso', this)">Burkina Faso</button>
+          <button onclick="selectCountry('Burundi', this)">Burundi</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">C</span><div class="countries-row">
+          <button onclick="selectCountry('Cabo Verde', this)">Cabo Verde</button>
+          <button onclick="selectCountry('Cambodia', this)">Cambodia</button>
+          <button onclick="selectCountry('Cameroon', this)">Cameroon</button>
+          <button onclick="selectCountry('Canada', this)">Canada</button>
+          <button onclick="selectCountry('Central African Republic', this)">Central African Republic</button>
+          <button onclick="selectCountry('Chad', this)">Chad</button>
+          <button onclick="selectCountry('Chile', this)">Chile</button>
+          <button onclick="selectCountry('China', this)">China</button>
+          <button onclick="selectCountry('Colombia', this)">Colombia</button>
+          <button onclick="selectCountry('Comoros', this)">Comoros</button>
+          <button onclick="selectCountry('Congo', this)">Congo</button>
+          <button onclick="selectCountry('Costa Rica', this)">Costa Rica</button>
+          <button onclick="selectCountry('Côte D&#39;Ivoire', this)">Côte D'Ivoire</button>
+          <button onclick="selectCountry('Croatia', this)">Croatia</button>
+          <button onclick="selectCountry('Cuba', this)">Cuba</button>
+          <button onclick="selectCountry('Cyprus', this)">Cyprus</button>
+          <button onclick="selectCountry('Czechia', this)">Czechia</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">D</span><div class="countries-row">
+          <button onclick="selectCountry('Democratic People s Republic of Korea', this)">Democratic People's Republic of Korea</button>
+          <button onclick="selectCountry('Democratic Republic of the Congo', this)">Democratic Republic of the Congo</button>
+          <button onclick="selectCountry('Denmark', this)">Denmark</button>
+          <button onclick="selectCountry('Djibouti', this)">Djibouti</button>
+          <button onclick="selectCountry('Dominica', this)">Dominica</button>
+          <button onclick="selectCountry('Dominican Republic', this)">Dominican Republic</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">E</span><div class="countries-row">
+          <button onclick="selectCountry('Ecuador', this)">Ecuador</button>
+          <button onclick="selectCountry('Egypt', this)">Egypt</button>
+          <button onclick="selectCountry('El Salvador', this)">El Salvador</button>
+          <button onclick="selectCountry('Equatorial Guinea', this)">Equatorial Guinea</button>
+          <button onclick="selectCountry('Eritrea', this)">Eritrea</button>
+          <button onclick="selectCountry('Estonia', this)">Estonia</button>
+          <button onclick="selectCountry('Eswatini', this)">Eswatini</button>
+          <button onclick="selectCountry('Ethiopia', this)">Ethiopia</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">F</span><div class="countries-row">
+          <button onclick="selectCountry('Fiji', this)">Fiji</button>
+          <button onclick="selectCountry('Finland', this)">Finland</button>
+          <button onclick="selectCountry('France', this)">France</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">G</span><div class="countries-row">
+          <button onclick="selectCountry('Gabon', this)">Gabon</button>
+          <button onclick="selectCountry('Gambia', this)">Gambia</button>
+          <button onclick="selectCountry('Georgia', this)">Georgia</button>
+          <button onclick="selectCountry('Germany', this)">Germany</button>
+          <button onclick="selectCountry('Ghana', this)">Ghana</button>
+          <button onclick="selectCountry('Greece', this)">Greece</button>
+          <button onclick="selectCountry('Grenada', this)">Grenada</button>
+          <button onclick="selectCountry('Guatemala', this)">Guatemala</button>
+          <button onclick="selectCountry('Guinea', this)">Guinea</button>
+          <button onclick="selectCountry('Guinea Bissau', this)">Guinea Bissau</button>
+          <button onclick="selectCountry('Guyana', this)">Guyana</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">H</span><div class="countries-row">
+          <button onclick="selectCountry('Haiti', this)">Haiti</button>
+          <button onclick="selectCountry('Honduras', this)">Honduras</button>
+          <button onclick="selectCountry('Holy See', this)">Holy See</button>
+          <button onclick="selectCountry('Hungary', this)">Hungary</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">I</span><div class="countries-row">
+          <button onclick="selectCountry('Iceland', this)">Iceland</button>
+          <button onclick="selectCountry('India', this)">India</button>
+          <button onclick="selectCountry('Indonesia', this)">Indonesia</button>
+          <button onclick="selectCountry('Iran', this)">Iran</button>
+          <button onclick="selectCountry('Iraq', this)">Iraq</button>
+          <button onclick="selectCountry('Ireland', this)">Ireland</button>
+          <button onclick="selectCountry('Israel', this)">Israel</button>
+          <button onclick="selectCountry('Italy', this)">Italy</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">J</span><div class="countries-row">
+          <button onclick="selectCountry('Jamaica', this)">Jamaica</button>
+          <button onclick="selectCountry('Japan', this)">Japan</button>
+          <button onclick="selectCountry('Jordan', this)">Jordan</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">K</span><div class="countries-row">
+          <button onclick="selectCountry('Kazakhstan', this)">Kazakhstan</button>
+          <button onclick="selectCountry('Kenya', this)">Kenya</button>
+          <button onclick="selectCountry('Kiribati', this)">Kiribati</button>
+          <button onclick="selectCountry('Kuwait', this)">Kuwait</button>
+          <button onclick="selectCountry('Kyrgyzstan', this)">Kyrgyzstan</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">L</span><div class="countries-row">
+          <button onclick="selectCountry('Lao People s Democratic Republic', this)">Lao People's Democratic Republic</button>
+          <button onclick="selectCountry('Latvia', this)">Latvia</button>
+          <button onclick="selectCountry('Lebanon', this)">Lebanon</button>
+          <button onclick="selectCountry('Lesotho', this)">Lesotho</button>
+          <button onclick="selectCountry('Liberia', this)">Liberia</button>
+          <button onclick="selectCountry('Libya', this)">Libya</button>
+          <button onclick="selectCountry('Liechtenstein', this)">Liechtenstein</button>
+          <button onclick="selectCountry('Lithuania', this)">Lithuania</button>
+          <button onclick="selectCountry('Luxemburg', this)">Luxemburg</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">M</span><div class="countries-row">
+          <button onclick="selectCountry('Madagascar', this)">Madagascar</button>
+          <button onclick="selectCountry('Malawi', this)">Malawi</button>
+          <button onclick="selectCountry('Malaysia', this)">Malaysia</button>
+          <button onclick="selectCountry('Maldives', this)">Maldives</button>
+          <button onclick="selectCountry('Mali', this)">Mali</button>
+          <button onclick="selectCountry('Malta', this)">Malta</button>
+          <button onclick="selectCountry('Marshall Islands', this)">Marshall Islands</button>
+          <button onclick="selectCountry('Mauritania', this)">Mauritania</button>
+          <button onclick="selectCountry('Mauritius', this)">Mauritius</button>
+          <button onclick="selectCountry('Mexico', this)">Mexico</button>
+          <button onclick="selectCountry('Micronesia', this)">Micronesia</button>
+          <button onclick="selectCountry('Monaco', this)">Monaco</button>
+          <button onclick="selectCountry('Mongolia', this)">Mongolia</button>
+          <button onclick="selectCountry('Montenegro', this)">Montenegro</button>
+          <button onclick="selectCountry('Morocco', this)">Morocco</button>
+          <button onclick="selectCountry('Mozambique', this)">Mozambique</button>
+          <button onclick="selectCountry('Myanmar', this)">Myanmar</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">N</span><div class="countries-row">
+          <button onclick="selectCountry('Namibia', this)">Namibia</button>
+          <button onclick="selectCountry('Nauru', this)">Nauru</button>
+          <button onclick="selectCountry('Nepal', this)">Nepal</button>
+          <button onclick="selectCountry('Netherlands', this)">Netherlands</button>
+          <button onclick="selectCountry('New Zealand', this)">New Zealand</button>
+          <button onclick="selectCountry('Nicaragua', this)">Nicaragua</button>
+          <button onclick="selectCountry('Niger', this)">Niger</button>
+          <button onclick="selectCountry('Nigeria', this)">Nigeria</button>
+          <button onclick="selectCountry('North Macedonia', this)">North Macedonia</button>
+          <button onclick="selectCountry('Norway', this)">Norway</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">O</span><div class="countries-row">
+          <button onclick="selectCountry('Oman', this)">Oman</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">P</span><div class="countries-row">
+          <button onclick="selectCountry('Pakistan', this)">Pakistan</button>
+          <button onclick="selectCountry('Palau', this)">Palau</button>
+          <button onclick="selectCountry('Panama', this)">Panama</button>
+          <button onclick="selectCountry('Papua New Guinea', this)">Papua New Guinea</button>
+          <button onclick="selectCountry('Paraguay', this)">Paraguay</button>
+          <button onclick="selectCountry('Peru', this)">Peru</button>
+          <button onclick="selectCountry('Philippines', this)">Philippines</button>
+          <button onclick="selectCountry('Poland', this)">Poland</button>
+          <button onclick="selectCountry('Portugal', this)">Portugal</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">Q</span><div class="countries-row">
+          <button onclick="selectCountry('Qatar', this)">Qatar</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">R</span><div class="countries-row">
+          <button onclick="selectCountry('Republic of Korea', this)">Republic of Korea</button>
+          <button onclick="selectCountry('Republic of Moldova', this)">Republic of Moldova</button>
+          <button onclick="selectCountry('Romania', this)">Romania</button>
+          <button onclick="selectCountry('Russian Federation', this)">Russian Federation</button>
+          <button onclick="selectCountry('Rwanda', this)">Rwanda</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">S</span><div class="countries-row">
+          <button onclick="selectCountry('Saint Kitts and Nevis', this)">Saint Kitts and Nevis</button>
+          <button onclick="selectCountry('Saint Lucia', this)">Saint Lucia</button>
+          <button onclick="selectCountry('Saint Vincent and the Grenadines', this)">Saint Vincent and the Grenadines</button>
+          <button onclick="selectCountry('Samoa', this)">Samoa</button>
+          <button onclick="selectCountry('San Marino', this)">San Marino</button>
+          <button onclick="selectCountry('Sao Tome and Principe', this)">Sao Tome and Principe</button>
+          <button onclick="selectCountry('Saudi Arabia', this)">Saudi Arabia</button>
+          <button onclick="selectCountry('Senegal', this)">Senegal</button>
+          <button onclick="selectCountry('Serbia', this)">Serbia</button>
+          <button onclick="selectCountry('Seychelles', this)">Seychelles</button>
+          <button onclick="selectCountry('Sierra Leone', this)">Sierra Leone</button>
+          <button onclick="selectCountry('Singapore', this)">Singapore</button>
+          <button onclick="selectCountry('Slovakia', this)">Slovakia</button>
+          <button onclick="selectCountry('Slovenia', this)">Slovenia</button>
+          <button onclick="selectCountry('Solomon Islands', this)">Solomon Islands</button>
+          <button onclick="selectCountry('Somalia', this)">Somalia</button>
+          <button onclick="selectCountry('South Africa', this)">South Africa</button>
+          <button onclick="selectCountry('South Sudan', this)">South Sudan</button>
+          <button onclick="selectCountry('Spain', this)">Spain</button>
+          <button onclick="selectCountry('Sri Lanka', this)">Sri Lanka</button>
+          <button onclick="selectCountry('State of Palestine', this)">State of Palestine</button>
+          <button onclick="selectCountry('Sudan', this)">Sudan</button>
+          <button onclick="selectCountry('Suriname', this)">Suriname</button>
+          <button onclick="selectCountry('Sweden', this)">Sweden</button>
+          <button onclick="selectCountry('Switzerland', this)">Switzerland</button>
+          <button onclick="selectCountry('Syrian Arab Republic', this)">Syrian Arab Republic</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">T</span><div class="countries-row">
+          <button onclick="selectCountry('Tajikistan', this)">Tajikistan</button>
+          <button onclick="selectCountry('Thailand', this)">Thailand</button>
+          <button onclick="selectCountry('Timor-Leste', this)">Timor-Leste</button>
+          <button onclick="selectCountry('Togo', this)">Togo</button>
+          <button onclick="selectCountry('Tonga', this)">Tonga</button>
+          <button onclick="selectCountry('Trinidad and Tobago', this)">Trinidad and Tobago</button>
+          <button onclick="selectCountry('Tunisia', this)">Tunisia</button>
+          <button onclick="selectCountry('Türkiye', this)">Türkiye</button>
+          <button onclick="selectCountry('Turkmenistan', this)">Turkmenistan</button>
+          <button onclick="selectCountry('Tuvalu', this)">Tuvalu</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">U</span><div class="countries-row">
+          <button onclick="selectCountry('Uganda', this)">Uganda</button>
+          <button onclick="selectCountry('Ukraine', this)">Ukraine</button>
+          <button onclick="selectCountry('United Arab Emirates', this)">United Arab Emirates</button>
+          <button onclick="selectCountry('United Kingdom of Great Britain and Northern Ireland', this)">United Kingdom of Great Britain and Northern Ireland</button>
+          <button onclick="selectCountry('United Republic of Tanzania', this)">United Republic of Tanzania</button>
+          <button onclick="selectCountry('United States of America', this)">United States of America</button>
+          <button onclick="selectCountry('Uruguay', this)">Uruguay</button>
+          <button onclick="selectCountry('Uzbekistan', this)">Uzbekistan</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">V</span><div class="countries-row">
+          <button onclick="selectCountry('Vanuatu', this)">Vanuatu</button>
+          <button onclick="selectCountry('Venezuela', this)">Venezuela</button>
+          <button onclick="selectCountry('Viet Nam', this)">Viet Nam</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">Y</span><div class="countries-row">
+          <button onclick="selectCountry('Yemen', this)">Yemen</button>
+        </div></div>
+
+        <div class="letter-selection"><span class="letter-label">Z</span><div class="countries-row">
+          <button onclick="selectCountry('Zambia', this)">Zambia</button>
+          <button onclick="selectCountry('Zimbabwe', this)">Zimbabwe</button>
+        </div></div>
+
+      </div><!-- /country-selector -->
+
+      </div><!-- /selector-panel -->
+
+      <!-- RIGHT: OUTPUT PANEL -->
+      <div class="output-panel" id="output-panel">
+        <div class="output-placeholder" id="output-placeholder">
+          <div class="placeholder-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="3" width="18" height="18" rx="2" stroke="#c9a84c" stroke-width="1.5"/>
+              <path d="M7 9h10M7 13h7" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <strong>No country selected</strong>
+            <p>Select a crime category and a country on the left to view the implementing legislation.</p>
+          </div>
+        </div>
+        <div id="legislation-output"></div>
+      </div><!-- /output-panel -->
+
+    </div><!-- /content-area -->
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+
+<script>
+  let legislationData = {};
+  let currentCrime = 'genocide';
+  let currentCountry = null;
+
+  fetch("legislation.json")
+    .then(response => response.json())
+    .then(data => {
+      legislationData = data;
+      updateCountryButtonColors();
+    })
+    .catch(err => console.error("Failed to load legislation.json", err));
+
+  function updateCountryButtonColors() {
+    document.querySelectorAll(".country-selector button").forEach(btn => {
+      const country = btn.textContent.trim();
+      const entry = legislationData[currentCrime]?.[country];
+
+      btn.classList.remove("has-legislation");
+
+      let hasData = false;
+      if (entry) {
+        if (entry.year && entry.year !== 0) hasData = true;
+        if (entry.variants && entry.variants.length > 0) hasData = true;
+      }
+
+      if (hasData) btn.classList.add("has-legislation");
+    });
+  }
+
+  function selectCrime(crime, btn) {
+    currentCrime = crime;
+    currentCountry = null;
+    clearActive(document.querySelectorAll(".crime-selector button"));
+    btn.classList.add("active");
+    clearActive(document.querySelectorAll(".country-selector button"));
+    document.getElementById("legislation-output").innerHTML = "";
+    // Show placeholder again
+    const placeholder = document.getElementById("output-placeholder");
+    placeholder.style.display = "flex";
+    updateCountryButtonColors();
+  }
+
+  function selectCountry(country, btn) {
+    currentCountry = country;
+    clearActive(document.querySelectorAll(".country-selector button"));
+    btn.classList.add("active");
+
+    const output = document.getElementById("legislation-output");
+    const placeholder = document.getElementById("output-placeholder");
+    output.innerHTML = "";
+
+    // Hide placeholder, show output
+    placeholder.style.display = "none";
+    output.style.display = "block";
+
+    const entry = legislationData[currentCrime]?.[currentCountry];
+    const container = document.createElement("div");
+    container.className = "legislation-box";
+
+    if (!entry) {
+      container.innerHTML = `<p class="leg-empty">No legislation available for ${country}.</p>`;
+      output.appendChild(container);
+      return;
+    }
+
+    if (entry.variants && entry.variants.length > 0) {
+      // Multi-variant (e.g. UK / Belgium)
+      const variantBar = document.createElement("div");
+      variantBar.className = "variant-bar";
+
+      const contentDiv = document.createElement("div");
+
+      entry.variants.forEach((variant, index) => {
+        const vBtn = document.createElement("button");
+        vBtn.textContent = variant.label;
+
+        vBtn.onclick = () => {
+          Array.from(variantBar.children).forEach(b => b.classList.remove("active-variant"));
+          vBtn.classList.add("active-variant");
+          renderLegislationContent(variant, contentDiv, entry.commentary);
+        };
+
+        variantBar.appendChild(vBtn);
+        if (index === 0) vBtn.click();
+      });
+
+      container.appendChild(variantBar);
+      container.appendChild(contentDiv);
+
+    } else {
+      if (!entry.year || entry.year === 0) {
+        container.innerHTML = `<p class="leg-empty">No legislation available for ${country}.</p>`;
+      } else {
+        renderLegislationContent(entry, container, null);
+      }
+    }
+
+    output.appendChild(container);
+
+    const outputPanel = document.getElementById("output-panel");
+
+    // On wide screens: reset the panel's own scroll to top
+    // On narrow screens (stacked layout): scroll the page down to the output panel
+    if (window.innerWidth <= 900) {
+      setTimeout(() => {
+        outputPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    } else {
+      outputPanel.scrollTop = 0;
+    }
+  }
+
+  function renderLegislationContent(data, container, globalCommentary) {
+    container.innerHTML = "";
+
+    // Meta info
+    const metaDiv = document.createElement("div");
+    metaDiv.className = "leg-meta";
+    metaDiv.innerHTML = `
+      <strong>${currentCountry}</strong> — ${data.title} (${data.year})
+      &nbsp;·&nbsp;
+      ${data.link
+        ? `<a href="${data.link}" target="_blank" rel="noopener">Source ↗</a>`
+        : `<em>No source link available</em>`
+      }
+      ${(data.commentary || globalCommentary)
+        ? `<br><span style="display:block;margin-top:6px;font-style:italic;">${data.commentary || globalCommentary}</span>`
+        : ''
+      }
+    `;
+    container.appendChild(metaDiv);
+
+    const bodyDiv = document.createElement("div");
+    bodyDiv.className = "legislation-body";
+
+    if (data.sections && data.sections.length > 0) {
+      // Tabbed sections
+      const tabBar = document.createElement("div");
+      tabBar.className = "tab-bar";
+      const tabContent = document.createElement("div");
+
+      data.sections.forEach((section, index) => {
+        const tabBtn = document.createElement("button");
+        tabBtn.textContent = section.header;
+
+        const sectionDiv = document.createElement("div");
+        sectionDiv.innerHTML = getFlexLayout(data.original_language, section.text_original, section.text_english);
+        sectionDiv.style.display = "none";
+
+        tabBtn.onclick = () => {
+          Array.from(tabBar.children).forEach(b => b.classList.remove("active-tab"));
+          Array.from(tabContent.children).forEach(c => c.style.display = "none");
+          tabBtn.classList.add("active-tab");
+          sectionDiv.style.display = "block";
+        };
+
+        if (index === 0) tabBtn.click();
+
+        tabBar.appendChild(tabBtn);
+        tabContent.appendChild(sectionDiv);
+      });
+
+      bodyDiv.appendChild(tabBar);
+      bodyDiv.appendChild(tabContent);
+
+    } else {
+      bodyDiv.innerHTML = getFlexLayout(data.original_language, data.text_original, data.text_english);
+    }
+
+    container.appendChild(bodyDiv);
+  }
+
+  function getFlexLayout(original_language, text_original, text_english) {
+    const lang = (original_language || "").trim();
+    const isEnglish = lang.toLowerCase() === "english";
+    const hasOriginal = text_original && text_original.trim().length > 0;
+
+    // Single column
+    if (isEnglish || !hasOriginal) {
+      const textToShow = isEnglish ? text_original : text_english;
+      const label = isEnglish ? "Original Text (English)" : "English Translation (original text unavailable)";
+      const safeText = textToShow || "";
+      const isLong = safeText.length > 1000;
+      const collapseClass = isLong ? "text-collapsed" : "";
+      const btnHTML = isLong ? `<button class="read-more-btn" onclick="toggleReadMore(this)">Read more</button>` : "";
+
+      return `
+        <div>
+          <div class="text-col-label">${label}</div>
+          <div class="content-wrapper ${collapseClass}">
+            <div class="text-content">${safeText}</div>
+          </div>
+          ${btnHTML}
+        </div>
+      `;
+    }
+
+    // Two columns
+    const isLong = (text_english || "").length > 1000;
+    const collapseClass = isLong ? "text-collapsed" : "";
+    const btnHTML = isLong ? `<button class="read-more-btn" onclick="toggleReadMore(this)">Read more</button>` : "";
+
+    return `
+      <div>
+        <div class="flex-row">
+          <div class="text-col">
+            <div class="text-col-label">Original (${original_language || "Native"})</div>
+            <div class="content-wrapper ${collapseClass}">
+              <div class="text-content">${text_original}</div>
+            </div>
+          </div>
+          <div class="text-col">
+            <div class="text-col-label">English Translation</div>
+            <div class="content-wrapper ${collapseClass}">
+              <div class="text-content">${text_english}</div>
+            </div>
+          </div>
+        </div>
+        ${btnHTML}
+      </div>
+    `;
+  }
+
+  function toggleReadMore(btn) {
+    const parent = btn.parentElement;
+    const wrappers = parent.querySelectorAll('.content-wrapper');
+    const isExpanded = wrappers[0].classList.contains("text-expanded");
+    wrappers.forEach(w => w.classList.toggle("text-expanded"));
+    btn.textContent = isExpanded ? "Read more" : "Show less";
+    if (isExpanded) {
+      btn.closest(".legislation-box").scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function clearActive(elements) {
+    elements.forEach(el => el.classList.remove("active"));
+  }
+</script>
+</body>
+</html>

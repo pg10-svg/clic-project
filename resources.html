@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CLIC – Other Resources</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy:       #1a2e4a;
+      --navy-dark:  #111f33;
+      --navy-mid:   #243d5c;
+      --gold:       #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-pale:  #f5edda;
+      --text:       #1c1c2e;
+      --text-muted: #5a6275;
+      --bg:         #f8f7f4;
+      --white:      #ffffff;
+      --border:     #ddd8ce;
+      --sidebar-w:  240px;
+      --radius:     6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ====== SIDEBAR ====== */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-brand { padding: 28px 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-brand .brand-title { font-family: 'Playfair Display', serif; font-size: 1.5em; font-weight: 700; color: var(--gold); letter-spacing: 0.02em; line-height: 1.1; }
+    .sidebar-brand .brand-sub { font-size: 0.72em; color: rgba(255,255,255,0.45); margin-top: 5px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .sidebar-nav { padding: 20px 0; flex: 1; }
+    .sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 11px 24px; font-size: 0.88em; font-weight: 600; letter-spacing: 0.04em; color: rgba(255,255,255,0.6); text-transform: uppercase; transition: background 0.15s, color 0.15s; border-left: 3px solid transparent; }
+    .sidebar-nav a:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.9); }
+    .sidebar-nav a.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,168,76,0.08); }
+
+    .sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-footer span { font-size: 0.68em; color: rgba(255,255,255,0.25); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ====== MAIN ====== */
+    .main-content { flex: 1; display: flex; flex-direction: column; }
+
+    /* ====== PAGE HEADER ====== */
+    .page-header {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 60%, #2a4a6e 100%);
+      padding: 40px 48px 36px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .page-header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 280px; height: 280px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.1); pointer-events: none; }
+
+    .page-header .eyebrow { font-size: 0.72em; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; font-weight: 600; }
+    .page-header h1 { font-family: 'Playfair Display', serif; font-size: 2em; font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 8px; }
+    .page-header .page-desc { font-size: 0.88em; color: rgba(255,255,255,0.5); max-width: 520px; line-height: 1.6; }
+
+    /* ====== CONTENT ====== */
+    .content-area { padding: 32px 48px 56px; flex: 1; }
+
+    /* ====== SECTION HEADER ====== */
+    .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; margin-top: 36px; }
+    .section-header:first-child { margin-top: 0; }
+    .section-label { font-size: 0.72em; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* ====== GRID ====== */
+    .db-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+
+    /* ====== CARD (whole card is an <a>) ====== */
+    a.db-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+    }
+
+    a.db-card:hover {
+      border-color: var(--navy);
+      box-shadow: 0 3px 16px rgba(26,46,74,0.09);
+      transform: translateY(-1px);
+    }
+
+    .db-card-top { padding: 18px 20px 14px; flex: 1; }
+
+    .db-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+
+    .db-card-name { font-family: 'Playfair Display', serif; font-size: 1em; font-weight: 600; color: var(--navy); line-height: 1.3; }
+
+    .db-card-badge { font-size: 0.68em; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; border: 1px solid; white-space: nowrap; flex-shrink: 0; }
+
+    .badge-permanent { background: var(--gold-pale);  border-color: rgba(201,168,76,0.4); color: #7a5a10; }
+    .badge-adhoc     { background: #eef4fb;            border-color: #bed0e8;             color: #1a3a5c; }
+    .badge-hybrid    { background: #f0eefa;            border-color: #c8b8e8;             color: #3a1a5c; }
+    .badge-regional  { background: #eaf5ee;            border-color: #b8dfc4;             color: #1a4a2c; }
+    .badge-intergov  { background: #f4f0ea;            border-color: #d4c4a4;             color: #5a3a10; }
+    .badge-multi     { background: #fdf0f0;            border-color: #f0cccc;             color: #5c1a1a; }
+    .badge-historic  { background: #f4f4ee;            border-color: #d4d4b8;             color: #4a4a1a; }
+
+    .db-card-court { font-size: 0.76em; color: var(--text-muted); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 8px; }
+
+    .db-card-desc { font-size: 0.85em; color: var(--text-muted); line-height: 1.55; }
+
+    .db-card-footer {
+      padding: 11px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      border-radius: 0 0 var(--radius) var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .db-card-url { font-size: 0.75em; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .db-card-arrow { display: flex; align-items: center; gap: 5px; font-size: 0.75em; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--navy); flex-shrink: 0; transition: gap 0.15s; }
+    a.db-card:hover .db-card-arrow { gap: 9px; }
+  </style>
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-title">CLIC</div>
+      <div class="brand-sub">International Criminal Law</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Search CLIC
+      </a>
+      <a href="legislation.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 6h6M5 9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Legislation
+      </a>
+      <a href="about.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v5M8 5.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        About CLIC
+      </a>
+      <a class="active" href="resources.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4h10M3 8h7M3 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Other Resources
+      </a>
+    </nav>
+    <div class="sidebar-footer"><span>Case Law Database</span></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <div class="page-header">
+      <div class="eyebrow">Reference</div>
+      <h1>International Databases</h1>
+      <p class="page-desc">External case law databases of international courts and tribunals. Click any card to open the database in a new tab.</p>
+    </div>
+
+    <div class="content-area">
+
+      <!-- ── INTERNATIONAL CRIMINAL COURTS ── -->
+      <div class="section-header">
+        <span class="section-label">International Criminal Courts &amp; Tribunals</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="db-grid">
+
+        <a class="db-card" href="https://www.legal-tools.org/cld" target="_blank" rel="noopener">
+          <div class="db-card-top">
+            <div class="db-card-header">
+              <div class="db-card-name">ICC Case Law Database</div>
+              <span class="db-card-badge badge-permanent">Permanent</span>
+            </div>
+            <div class="db-card-court">International Criminal Court</div>
+            <div class="db-card-desc">Official ICC jurisprudence database with 6,000+ legal findings from judgments and decisions since 2004. Searchable by full text, keyword, case, and Rome Statute provision.</div>
+          </div>
+          <div class="db-card-footer">
+            <span class="db-card-url">legal-tools.org/cld</span>
+            <span class="db-card-arrow">Open <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+
+        <a class="db-card" href="https://cld.irmct.org/advanced-search/" target="_blank" rel="noopener">
+          <div class="db-card-top">
+            <div class="db-card-header">
+              <div class="db-card-name">ICTR / ICTY / IRMCT Case Law Database</div>
+              <span class="db-card-badge badge-adhoc">Ad Hoc</span>
+            </div>
+            <div class="db-card-court">ICTR · ICTY · International Residual Mechanism</div>
+            <div class="db-card-desc">Gateway to Appeals Chamber jurisprudence of the ICTR, ICTY, and IRMCT. Searchable by legal notion, case name, filing, date range, and tribunal. Supports advanced combined filters.</div>
+          </div>
+          <div class="db-card-footer">
+            <span class="db-card-url">cld.irmct.org</span>
+            <span class="db-card-arrow">Open <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+
+
+        <a class="db-card" href="https://nuremberg.law.harvard.edu/" target="_blank" rel="noopener">
+          <div class="db-card-top">
+            <div class="db-card-header">
+              <div class="db-card-name">Nuremberg Trials Project</div>
+              <span class="db-card-badge badge-historic">Historic</span>
+            </div>
+            <div class="db-card-court">International Military Tribunal · Harvard Law Library</div>
+            <div class="db-card-desc">Harvard Law School's digitised archive of Nuremberg Military Tribunal records: full transcripts, documents, and judgments.</div>
+          </div>
+          <div class="db-card-footer">
+            <span class="db-card-url">nuremberg.law.harvard.edu</span>
+            <span class="db-card-arrow">Open <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- ── REGIONAL & HUMAN RIGHTS ── -->
+      <div class="section-header">
+        <span class="section-label">Regional &amp; Human Rights Courts</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="db-grid">
+
+        <a class="db-card" href="https://hudoc.echr.coe.int" target="_blank" rel="noopener">
+          <div class="db-card-top">
+            <div class="db-card-header">
+              <div class="db-card-name">HUDOC</div>
+              <span class="db-card-badge badge-regional">Regional</span>
+            </div>
+            <div class="db-card-court">European Court of Human Rights (ECtHR)</div>
+            <div class="db-card-desc">Official database of all ECtHR judgments, decisions, and advisory opinions. Relevant for cases involving state obligations under the ECHR including non-refoulement, fair trial rights, and positive obligations in atrocity contexts.</div>
+          </div>
+          <div class="db-card-footer">
+            <span class="db-card-url">hudoc.echr.coe.int</span>
+            <span class="db-card-arrow">Open <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+
+        <a class="db-card" href="https://www.icj-cij.org/cases" target="_blank" rel="noopener">
+          <div class="db-card-top">
+            <div class="db-card-header">
+              <div class="db-card-name">ICJ Cases &amp; Judgments</div>
+              <span class="db-card-badge badge-intergov">Interstate</span>
+            </div>
+            <div class="db-card-court">International Court of Justice (ICJ)</div>
+            <div class="db-card-desc">Official collection of ICJ contentious cases, advisory opinions, and orders. Essential for state responsibility, the Genocide Convention (Bosnia v. Serbia; Gambia v. Myanmar), and foundational questions of public international law.</div>
+          </div>
+          <div class="db-card-footer">
+            <span class="db-card-url">icj-cij.org/cases</span>
+            <span class="db-card-arrow">Open <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+
+        <a class="db-card" href="https://jurisprudencia.corteidh.or.cr/en/"  target="_blank" rel="noopener">
+          <div class="db-card-top">
+            <div class="db-card-header">
+              <div class="db-card-name">Inter-American Court of Human Rights</div>
+              <span class="db-card-badge badge-regional">Regional</span>
+            </div>
+            <div class="db-card-court">IACtHR · OAS</div>
+            <div class="db-card-desc">Contentious cases, advisory opinions, and provisional measures of the IACtHR. Frequently engages with impunity, amnesty laws, and state responsibility for mass atrocities in Latin America.</div>
+          </div>
+          <div class="db-card-footer">
+            <span class="db-card-url">corteidh.or.cr</span>
+            <span class="db-card-arrow">Open <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- ── MULTI-COURT RESEARCH ── -->
+      <div class="section-header">
+        <span class="section-label">Multi-Court Research Databases</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="db-grid">
+
+        <a class="db-card" href="https://www.legal-tools.org/en/search-database" target="_blank" rel="noopener">
+          <div class="db-card-top">
+            <div class="db-card-header">
+              <div class="db-card-name">ICC Legal Tools Database</div>
+              <span class="db-card-badge badge-permanent">Permanent</span>
+            </div>
+            <div class="db-card-court">International Criminal Court</div>
+            <div class="db-card-desc">The leading information service on international criminal law. Broader than the CLD — includes national implementing legislation, preparatory works, treaties, court documents, and scholarly materials.</div>
+          </div>
+          <div class="db-card-footer">
+            <span class="db-card-url">legal-tools.org</span>
+            <span class="db-card-arrow">Open <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+
+       
+
+
+        <a class="db-card" href="https://www.worldlii.org/int/cases/" target="_blank" rel="noopener">
+          <div class="db-card-top">
+            <div class="db-card-header">
+              <div class="db-card-name">WorldLII – International Courts &amp; Tribunals</div>
+              <span class="db-card-badge badge-multi">Multi-Court</span>
+            </div>
+            <div class="db-card-court">World Legal Information Institute</div>
+            <div class="db-card-desc">Free access to 40+ databases covering case law from international and regional courts including the ICC, ICJ, ICTY, and ECHR, as well as domestic courts from 60+ jurisdictions relating to international law.</div>
+          </div>
+          <div class="db-card-footer">
+            <span class="db-card-url">worldlii.org/int/cases</span>
+            <span class="db-card-arrow">Open <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+
+      </div>
+
+    </div><!-- /content-area -->
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+</body>
+</html>

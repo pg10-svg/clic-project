@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CLIC – About</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy:       #1a2e4a;
+      --navy-dark:  #111f33;
+      --navy-mid:   #243d5c;
+      --gold:       #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-pale:  #f5edda;
+      --text:       #1c1c2e;
+      --text-muted: #5a6275;
+      --bg:         #f8f7f4;
+      --white:      #ffffff;
+      --border:     #ddd8ce;
+      --sidebar-w:  240px;
+      --radius:     6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ====== SIDEBAR ====== */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-brand { padding: 28px 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-brand .brand-title { font-family: 'Playfair Display', serif; font-size: 1.5em; font-weight: 700; color: var(--gold); letter-spacing: 0.02em; line-height: 1.1; }
+    .sidebar-brand .brand-sub { font-size: 0.72em; color: rgba(255,255,255,0.45); margin-top: 5px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .sidebar-nav { padding: 20px 0; flex: 1; }
+    .sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 11px 24px; font-size: 0.88em; font-weight: 600; letter-spacing: 0.04em; color: rgba(255,255,255,0.6); text-transform: uppercase; transition: background 0.15s, color 0.15s; border-left: 3px solid transparent; }
+    .sidebar-nav a:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.9); }
+    .sidebar-nav a.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,168,76,0.08); }
+
+    .sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-footer span { font-size: 0.68em; color: rgba(255,255,255,0.25); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ====== MAIN ====== */
+    .main-content { flex: 1; display: flex; flex-direction: column; }
+
+    /* ====== PAGE HEADER ====== */
+    .page-header {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 60%, #2a4a6e 100%);
+      padding: 40px 48px 36px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .page-header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 280px; height: 280px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.1); pointer-events: none; }
+
+    .page-header .eyebrow { font-size: 0.72em; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; font-weight: 600; }
+    .page-header h1 { font-family: 'Playfair Display', serif; font-size: 2em; font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 8px; }
+    .page-header .page-desc { font-size: 0.92em; color: rgba(255,255,255,0.55); max-width: 580px; line-height: 1.65; }
+
+    /* ====== CONTENT ====== */
+    .content-area { padding: 36px 48px 60px; flex: 1; max-width: 860px; }
+
+    /* ====== SECTION HEADER ====== */
+    .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; margin-top: 40px; }
+    .section-header:first-child { margin-top: 0; }
+    .section-label { font-size: 0.72em; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* ====== PROSE ====== */
+    .prose {
+      font-size: 0.95em;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    .prose p { margin-bottom: 1.1em; }
+    .prose p:last-child { margin-bottom: 0; }
+
+    /* ====== TWO-COLUMN FEATURE CARDS ====== */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 0;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .feature-card-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--gold-pale);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1em;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .feature-card-desc {
+      font-size: 0.87em;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .feature-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-top: auto;
+      padding-top: 6px;
+      transition: gap 0.15s;
+    }
+
+    .feature-card-link:hover { gap: 8px; }
+
+    /* ====== CRIME TAG ROW ====== */
+    .crime-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .crime-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85em;
+      font-weight: 600;
+      background: var(--white);
+      color: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 14px;
+    }
+
+    .crime-tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ====== CASE PAGE ANATOMY ====== */
+    .anatomy-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .anatomy-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .anatomy-row:last-child { border-bottom: none; }
+
+    .anatomy-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--navy);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .anatomy-body { flex: 1; }
+
+    .anatomy-title {
+      font-size: 0.9em;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .anatomy-desc {
+      font-size: 0.85em;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ====== NOTICE ====== */
+    .notice {
+      display: flex;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      font-size: 0.87em;
+      line-height: 1.6;
+      background: var(--gold-pale);
+      border: 1px solid rgba(201,168,76,0.35);
+      color: #6a4a10;
+      margin-top: 20px;
+    }
+
+    .notice a { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
+  </style>
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-title">CLIC</div>
+      <div class="brand-sub">International Criminal Law</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Search CLIC
+      </a>
+      <a href="legislation.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 6h6M5 9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Legislation
+      </a>
+      <a class="active" href="about.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v5M8 5.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        About CLIC
+      </a>
+      <a href="resources.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4h10M3 8h7M3 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Other Resources
+      </a>
+    </nav>
+    <div class="sidebar-footer"><span>Case Law Database</span></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <div class="page-header">
+      <div class="eyebrow">About</div>
+      <h1>Case Law on International Crimes</h1>
+      <p class="page-desc">CLIC is a research database documenting how domestic courts apply and interpret international criminal law. It covers both a case law database and a legislation database.</p>
+    </div>
+
+    <div class="content-area">
+
+      <!-- WHAT IS CLIC -->
+      <div class="section-header">
+        <span class="section-label">What is CLIC</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="prose">
+        <p>CLIC — <em>Case Law on International Crimes</em> — is a specialised database documenting decisions by domestic courts that engage with international criminal law. Its focus is on how national jurisdictions apply, interpret, and implement the core crimes under international law: genocide, crimes against humanity, war crimes, and the crime of aggression.</p>
+        <p>While criminal proceedings form the backbone of the database, CLIC is not limited to them. Cases from other areas of law are included where they bear directly on the core crimes — for example, constitutional law cases examining whether domestic implementing legislation conforms with international treaty obligations.</p>
+      </div>
+
+      <!-- THE TWO DATABASES -->
+      <div class="section-header">
+        <span class="section-label">Scope</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="feature-grid">
+
+        <div class="feature-card">
+          <div class="feature-card-icon">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="#c9a84c" stroke-width="1.4"/><path d="M10.5 10.5L14 14" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <div class="feature-card-title">Case Law Database</div>
+          <div class="feature-card-desc">Decisions by domestic courts applying and interpreting international criminal law. Each case record includes the country, court, decision date, crime or issue category, and links to the abstract and full judgment.</div>
+          <a class="feature-card-link" href="index.html">
+            Browse cases
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card-icon">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1" stroke="#c9a84c" stroke-width="1.4"/><path d="M5 6h6M5 9h4" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <div class="feature-card-title">Legislation Database</div>
+          <div class="feature-card-desc">Domestic implementing legislation for each core crime, organised by country. Displays the relevant statutory provisions side-by-side in the original language and English translation where available.</div>
+          <a class="feature-card-link" href="legislation.html">
+            Browse legislation
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="notice">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="8" cy="8" r="6" stroke="#c9a84c" stroke-width="1.3"/><path d="M8 7v4M8 5.5v.3" stroke="#c9a84c" stroke-width="1.3" stroke-linecap="round"/></svg>
+        <span>CLIC covers domestic court decisions only. For case law from international courts and tribunals — the ICC, ICTY, ICTR, and others — see <a href="resources.html">Other Resources</a>.</span>
+      </div>
+
+      <!-- CORE CRIMES -->
+      <div class="section-header" style="margin-top:40px;">
+        <span class="section-label">Core Crimes Covered</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="prose" style="margin-bottom:16px;">
+        <p>The database centres on the four core crimes under international law as defined primarily by the Rome Statute of the International Criminal Court. Cases are tagged by crime category, and a single case may involve multiple categories.</p>
+      </div>
+
+      <div class="crime-tags">
+        <div class="crime-tag">
+          <div class="crime-tag-dot" style="background:#a33030;"></div>
+          Genocide
+        </div>
+        <div class="crime-tag">
+          <div class="crime-tag-dot" style="background:#1a3a5c;"></div>
+          Crimes Against Humanity
+        </div>
+        <div class="crime-tag">
+          <div class="crime-tag-dot" style="background:#1a4a2c;"></div>
+          War Crimes
+        </div>
+        <div class="crime-tag">
+          <div class="crime-tag-dot" style="background:#4a3a1a;"></div>
+          Aggression
+        </div>
+        <div class="crime-tag" style="border-style:dashed;">
+          <div class="crime-tag-dot" style="background:#5a6275;"></div>
+          Related Issues (e.g. Jurisdiction, Immunities)
+        </div>
+      </div>
+
+      <!-- CASE PAGES -->
+      <div class="section-header">
+        <span class="section-label">What Each Case Page Contains</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="anatomy-card">
+
+        <div class="anatomy-row">
+          <div class="anatomy-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1" stroke="white" stroke-width="1.3"/><path d="M5 6h6M5 9h4" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div class="anatomy-body">
+            <div class="anatomy-title">Abstract (English)</div>
+            <div class="anatomy-desc">A summary of the court's core findings and legal reasoning, prepared in English regardless of the original language of the judgment. The abstract focuses on the court's interpretation of the relevant international criminal law concepts and the outcome of the proceedings.</div>
+          </div>
+        </div>
+
+        <div class="anatomy-row">
+          <div class="anatomy-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h8v12H4V2z" stroke="white" stroke-width="1.3"/><path d="M6 6h4M6 9h3" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div class="anatomy-body">
+            <div class="anatomy-title">Full Judgment (Original Language)</div>
+            <div class="anatomy-desc">A link to the complete court decision in its original language as a PDF. Where an official translation exists, it is linked separately.</div>
+          </div>
+        </div>
+
+        <div class="anatomy-row">
+          <div class="anatomy-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="white" stroke-width="1.3"/><path d="M3 14c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div class="anatomy-body">
+            <div class="anatomy-title">Case Metadata</div>
+            <div class="anatomy-desc">Country, court, decision date, official decision number, crime or issue categories, and source link. Cases are cross-referenced so they can be found both via the country index and via the crime category index.</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /content-area -->
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+</body>
+</html>

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CLIC – Case Law on International Crimes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ====== DESIGN TOKENS ====== */
+    :root {
+      --navy:        #1a2e4a;
+      --navy-dark:   #111f33;
+      --navy-mid:    #243d5c;
+      --gold:        #c9a84c;
+      --gold-light:  #e8c97a;
+      --gold-pale:   #f5edda;
+      --text:        #1c1c2e;
+      --text-muted:  #5a6275;
+      --bg:          #f8f7f4;
+      --white:       #ffffff;
+      --border:      #ddd8ce;
+      --sidebar-w:   240px;
+      --radius:      6px;
+    }
+
+    /* ====== RESET & BASE ====== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ====== LAYOUT ====== */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ====== SIDEBAR ====== */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      padding: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-brand {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-brand .brand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5em;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+    }
+
+    .sidebar-brand .brand-sub {
+      font-size: 0.72em;
+      color: rgba(255,255,255,0.45);
+      margin-top: 5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-nav {
+      padding: 20px 0;
+      flex: 1;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 24px;
+      font-size: 0.88em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+      cursor: pointer;
+    }
+
+    .sidebar-nav a:hover {
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.9);
+    }
+
+    .sidebar-nav a.active {
+      color: var(--gold);
+      border-left-color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+
+    /* ====== MAIN CONTENT ====== */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ====== HERO SEARCH ====== */
+    .hero {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 60%, #2a4a6e 100%);
+      padding: 56px 48px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.12);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -20px; right: -20px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.08);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72em;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2em;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+      max-width: 600px;
+      margin-bottom: 10px;
+    }
+
+    .hero-desc {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.95em;
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .search-bar {
+      display: flex;
+      max-width: 580px;
+      gap: 0;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 14px 20px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95em;
+      border: none;
+      border-radius: var(--radius) 0 0 var(--radius);
+      background: var(--white);
+      color: var(--text);
+      outline: none;
+    }
+
+    .search-bar input::placeholder { color: #aaa; }
+
+    .search-bar button {
+      padding: 14px 26px;
+      background: var(--gold);
+      color: var(--navy-dark);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9em;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .search-bar button:hover { background: var(--gold-light); }
+
+    .hero-stats {
+      margin-top: 20px;
+      display: flex;
+      gap: 28px;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6em;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.72em;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    /* ====== BROWSE SECTION ====== */
+    .browse-section {
+      padding: 32px 48px;
+      flex: 1;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .section-label {
+      font-size: 0.72em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .section-divider {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ====== TAB BUTTONS ====== */
+    .tab-buttons {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 28px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 4px;
+      width: fit-content;
+    }
+
+    .tab-buttons button {
+      padding: 8px 20px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .tab-buttons button.active {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ====== LETTER SECTIONS ====== */
+    .letter-section {
+      margin-bottom: 18px;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+
+    .letter-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1em;
+      font-weight: 700;
+      color: var(--navy);
+      width: 18px;
+      flex-shrink: 0;
+    }
+
+    .countries-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ====== COUNTRY CHIPS (with badge) ====== */
+    .countries-row a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      font-size: 0.82em;
+      color: var(--navy);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 10px 4px 12px;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+
+    .countries-row a:hover {
+      border-color: var(--navy);
+      background: var(--gold-pale);
+    }
+
+    /* The count badge is injected via JS — style the (n) part */
+    .countries-row a .count-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gold-pale);
+      color: var(--navy);
+      font-size: 0.8em;
+      font-weight: 700;
+      border-radius: 20px;
+      padding: 1px 7px;
+      margin-left: 7px;
+      border: 1px solid rgba(201,168,76,0.35);
+      min-width: 22px;
+    }
+
+    /* ====== CRIME COLUMN ====== */
+    .crime-issue-column {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .crime-issue-column h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95em;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+
+    .crime-issue-column a {
+      display: inline-flex;
+      align-items: center;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 9px 16px;
+      font-size: 0.9em;
+      font-weight: 600;
+      color: var(--navy);
+      width: fit-content;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .crime-issue-column a:hover {
+      border-color: var(--navy);
+      background: var(--gold-pale);
+    }
+
+    /* ====== FOOTER ====== */
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-footer span {
+      font-size: 0.68em;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-title">CLIC</div>
+      <div class="brand-sub">International Criminal Law</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="active" onclick="openPage('searchPage', this)">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Search CLIC
+      </a>
+      <a href="legislation.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 6h6M5 9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Legislation
+      </a>
+      <a href="about.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v5M8 5.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        About CLIC
+      </a>
+      <a href="resources.html">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4h10M3 8h7M3 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Other Resources
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <span>Case Law Database</span>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+
+    <div id="searchPage" class="page">
+
+      <!-- HERO -->
+      <div class="hero">
+        <div class="hero-eyebrow">Database</div>
+        <h1>Case Law on International Crimes</h1>
+        <p class="hero-desc">Browse domestic court decisions applying international criminal law. Search by keyword, country, or crime category.</p>
+
+        <form action="search.html" class="search-bar">
+          <input type="text" name="q" placeholder="Search by keyword, country, court…">
+          <button type="submit">Search</button>
+        </form>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number" id="total-cases-count">–</span>
+            <span class="stat-label">Total Cases</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BROWSE -->
+      <div class="browse-section">
+        <div class="section-header">
+          <span class="section-label">Browse by category</span>
+          <div class="section-divider"></div>
+        </div>
+
+        <div class="tab-buttons">
+          <button class="active" onclick="openTab('countries', event)">Country</button>
+          <button onclick="openTab('crimes', event)">Crime / Issue</button>
+        </div>
+
+        <!-- COUNTRY TAB -->
+        <div id="countries" class="tab-content active">
+
+          <div class="letter-section"><span class="letter-label">A</span><div class="countries-row">
+            <a href="countries/afghanistan.html" data-country="Afghanistan">Afghanistan</a>
+            <a href="countries/albania.html" data-country="Albania">Albania</a>
+            <a href="countries/algeria.html" data-country="Algeria">Algeria</a>
+            <a href="countries/andorra.html" data-country="Andorra">Andorra</a>
+            <a href="countries/angola.html" data-country="Angola">Angola</a>
+            <a href="countries/antigua_and_barbuda.html" data-country="Antigua and Barbuda">Antigua and Barbuda</a>
+            <a href="countries/argentina.html" data-country="Argentina">Argentina</a>
+            <a href="countries/armenia.html" data-country="Armenia">Armenia</a>
+            <a href="countries/australia.html" data-country="Australia">Australia</a>
+            <a href="countries/austria.html" data-country="Austria">Austria</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">B</span><div class="countries-row">
+            <a href="countries/bahamas.html" data-country="Bahamas">Bahamas</a>
+            <a href="countries/bahrain.html" data-country="Bahrain">Bahrain</a>
+            <a href="countries/bangladesh.html" data-country="Bangladesh">Bangladesh</a>
+            <a href="countries/barbados.html" data-country="Barbados">Barbados</a>
+            <a href="countries/belarus.html" data-country="Belarus">Belarus</a>
+            <a href="countries/belgium.html" data-country="Belgium">Belgium</a>
+            <a href="countries/belize.html" data-country="Belize">Belize</a>
+            <a href="countries/benin.html" data-country="Benin">Benin</a>
+            <a href="countries/bhutan.html" data-country="Bhutan">Bhutan</a>
+            <a href="countries/bolivia.html" data-country="Bolivia">Bolivia</a>
+            <a href="countries/bosnia_and_herzegovina.html" data-country="Bosnia and Herzegovina">Bosnia and Herzegovina</a>
+            <a href="countries/botswana.html" data-country="Botswana">Botswana</a>
+            <a href="countries/brazil.html" data-country="Brazil">Brazil</a>
+            <a href="countries/brunei_darussalam.html" data-country="Brunei Darussalam">Brunei Darussalam</a>
+            <a href="countries/bulgaria.html" data-country="Bulgaria">Bulgaria</a>
+            <a href="countries/burkina_faso.html" data-country="Burkina Faso">Burkina Faso</a>
+            <a href="countries/burundi.html" data-country="Burundi">Burundi</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">C</span><div class="countries-row">
+            <a href="countries/cabo_verde.html" data-country="Cabo Verde">Cabo Verde</a>
+            <a href="countries/cambodia.html" data-country="Cambodia">Cambodia</a>
+            <a href="countries/cameroon.html" data-country="Cameroon">Cameroon</a>
+            <a href="countries/canada.html" data-country="Canada">Canada</a>
+            <a href="countries/central_african_republic.html" data-country="Central African Republic">Central African Republic</a>
+            <a href="countries/chad.html" data-country="Chad">Chad</a>
+            <a href="countries/chile.html" data-country="Chile">Chile</a>
+            <a href="countries/china.html" data-country="China">China</a>
+            <a href="countries/colombia.html" data-country="Colombia">Colombia</a>
+            <a href="countries/comoros.html" data-country="Comoros">Comoros</a>
+            <a href="countries/congo.html" data-country="Congo">Congo</a>
+            <a href="countries/cook_islands.html" data-country="Cook Islands">Cook Islands</a>
+            <a href="countries/costa_rica.html" data-country="Costa Rica">Costa Rica</a>
+            <a href="countries/croatia.html" data-country="Croatia">Croatia</a>
+            <a href="countries/cuba.html" data-country="Cuba">Cuba</a>
+            <a href="countries/cyprus.html" data-country="Cyprus">Cyprus</a>
+            <a href="countries/czechia.html" data-country="Czechia">Czechia</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">D</span><div class="countries-row">
+            <a href="countries/democratic_republic_of_the_congo.html" data-country="Democratic Republic of the Congo">Democratic Republic of the Congo</a>
+            <a href="countries/denmark.html" data-country="Denmark">Denmark</a>
+            <a href="countries/djibouti.html" data-country="Djibouti">Djibouti</a>
+            <a href="countries/dominica.html" data-country="Dominica">Dominica</a>
+            <a href="countries/dominican_republic.html" data-country="Dominican Republic">Dominican Republic</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">E</span><div class="countries-row">
+            <a href="countries/ecuador.html" data-country="Ecuador">Ecuador</a>
+            <a href="countries/egypt.html" data-country="Egypt">Egypt</a>
+            <a href="countries/el_salvador.html" data-country="El Salvador">El Salvador</a>
+            <a href="countries/equatorial_guinea.html" data-country="Equatorial Guinea">Equatorial Guinea</a>
+            <a href="countries/eritrea.html" data-country="Eritrea">Eritrea</a>
+            <a href="countries/estonia.html" data-country="Estonia">Estonia</a>
+            <a href="countries/ethiopia.html" data-country="Ethiopia">Ethiopia</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">F</span><div class="countries-row">
+            <a href="countries/fiji.html" data-country="Fiji">Fiji</a>
+            <a href="countries/finland.html" data-country="Finland">Finland</a>
+            <a href="countries/france.html" data-country="France">France</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">G</span><div class="countries-row">
+            <a href="countries/gabon.html" data-country="Gabon">Gabon</a>
+            <a href="countries/gambia.html" data-country="Gambia">Gambia</a>
+            <a href="countries/georgia.html" data-country="Georgia">Georgia</a>
+            <a href="countries/germany.html" data-country="Germany">Germany</a>
+            <a href="countries/ghana.html" data-country="Ghana">Ghana</a>
+            <a href="countries/greece.html" data-country="Greece">Greece</a>
+            <a href="countries/grenada.html" data-country="Grenada">Grenada</a>
+            <a href="countries/guatemala.html" data-country="Guatemala">Guatemala</a>
+            <a href="countries/guinea.html" data-country="Guinea">Guinea</a>
+            <a href="countries/guinea_bissau.html" data-country="Guinea-Bissau">Guinea-Bissau</a>
+            <a href="countries/guyana.html" data-country="Guyana">Guyana</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">H</span><div class="countries-row">
+            <a href="countries/haiti.html" data-country="Haiti">Haiti</a>
+            <a href="countries/honduras.html" data-country="Honduras">Honduras</a>
+            <a href="countries/hungary.html" data-country="Hungary">Hungary</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">I</span><div class="countries-row">
+            <a href="countries/iceland.html" data-country="Iceland">Iceland</a>
+            <a href="countries/india.html" data-country="India">India</a>
+            <a href="countries/indonesia.html" data-country="Indonesia">Indonesia</a>
+            <a href="countries/iran.html" data-country="Iran">Iran</a>
+            <a href="countries/iraq.html" data-country="Iraq">Iraq</a>
+            <a href="countries/ireland.html" data-country="Ireland">Ireland</a>
+            <a href="countries/israel.html" data-country="Israel">Israel</a>
+            <a href="countries/italy.html" data-country="Italy">Italy</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">J</span><div class="countries-row">
+            <a href="countries/jamaica.html" data-country="Jamaica">Jamaica</a>
+            <a href="countries/japan.html" data-country="Japan">Japan</a>
+            <a href="countries/jordan.html" data-country="Jordan">Jordan</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">K</span><div class="countries-row">
+            <a href="countries/kazakhstan.html" data-country="Kazakhstan">Kazakhstan</a>
+            <a href="countries/kenya.html" data-country="Kenya">Kenya</a>
+            <a href="countries/kiribati.html" data-country="Kiribati">Kiribati</a>
+            <a href="countries/kuwait.html" data-country="Kuwait">Kuwait</a>
+            <a href="countries/kyrgyzstan.html" data-country="Kyrgyzstan">Kyrgyzstan</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">L</span><div class="countries-row">
+            <a href="countries/laos.html" data-country="Laos">Laos</a>
+            <a href="countries/latvia.html" data-country="Latvia">Latvia</a>
+            <a href="countries/lebanon.html" data-country="Lebanon">Lebanon</a>
+            <a href="countries/lesotho.html" data-country="Lesotho">Lesotho</a>
+            <a href="countries/liberia.html" data-country="Liberia">Liberia</a>
+            <a href="countries/libya.html" data-country="Libya">Libya</a>
+            <a href="countries/liechtenstein.html" data-country="Liechtenstein">Liechtenstein</a>
+            <a href="countries/lithuania.html" data-country="Lithuania">Lithuania</a>
+            <a href="countries/luxembourg.html" data-country="Luxembourg">Luxembourg</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">M</span><div class="countries-row">
+            <a href="countries/madagascar.html" data-country="Madagascar">Madagascar</a>
+            <a href="countries/malawi.html" data-country="Malawi">Malawi</a>
+            <a href="countries/malaysia.html" data-country="Malaysia">Malaysia</a>
+            <a href="countries/maldives.html" data-country="Maldives">Maldives</a>
+            <a href="countries/mali.html" data-country="Mali">Mali</a>
+            <a href="countries/malta.html" data-country="Malta">Malta</a>
+            <a href="countries/mauritania.html" data-country="Mauritania">Mauritania</a>
+            <a href="countries/mauritius.html" data-country="Mauritius">Mauritius</a>
+            <a href="countries/mexico.html" data-country="Mexico">Mexico</a>
+            <a href="countries/micronesia.html" data-country="Micronesia">Micronesia</a>
+            <a href="countries/monaco.html" data-country="Monaco">Monaco</a>
+            <a href="countries/mongolia.html" data-country="Mongolia">Mongolia</a>
+            <a href="countries/montenegro.html" data-country="Montenegro">Montenegro</a>
+            <a href="countries/morocco.html" data-country="Morocco">Morocco</a>
+            <a href="countries/mozambique.html" data-country="Mozambique">Mozambique</a>
+            <a href="countries/myanmar.html" data-country="Myanmar">Myanmar</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">N</span><div class="countries-row">
+            <a href="countries/namibia.html" data-country="Namibia">Namibia</a>
+            <a href="countries/nauru.html" data-country="Nauru">Nauru</a>
+            <a href="countries/nepal.html" data-country="Nepal">Nepal</a>
+            <a href="countries/netherlands.html" data-country="Netherlands">Netherlands</a>
+            <a href="countries/new_zealand.html" data-country="New Zealand">New Zealand</a>
+            <a href="countries/nicaragua.html" data-country="Nicaragua">Nicaragua</a>
+            <a href="countries/niger.html" data-country="Niger">Niger</a>
+            <a href="countries/nigeria.html" data-country="Nigeria">Nigeria</a>
+            <a href="countries/north_macedonia.html" data-country="North Macedonia">North Macedonia</a>
+            <a href="countries/norway.html" data-country="Norway">Norway</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">O</span><div class="countries-row">
+            <a href="countries/oman.html" data-country="Oman">Oman</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">P</span><div class="countries-row">
+            <a href="countries/pakistan.html" data-country="Pakistan">Pakistan</a>
+            <a href="countries/palau.html" data-country="Palau">Palau</a>
+            <a href="countries/panama.html" data-country="Panama">Panama</a>
+            <a href="countries/papua_new_guinea.html" data-country="Papua New Guinea">Papua New Guinea</a>
+            <a href="countries/paraguay.html" data-country="Paraguay">Paraguay</a>
+            <a href="countries/peru.html" data-country="Peru">Peru</a>
+            <a href="countries/philippines.html" data-country="Philippines">Philippines</a>
+            <a href="countries/Poland.html" data-country="Poland">Poland</a>
+            <a href="countries/Portugal.html" data-country="Portugal">Portugal</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">Q</span><div class="countries-row">
+            <a href="countries/qatar.html" data-country="Qatar">Qatar</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">R</span><div class="countries-row">
+            <a href="countries/republic_of_korea.html" data-country="Republic of Korea">Republic of Korea</a>
+            <a href="countries/republic_of_moldova.html" data-country="Republic of Moldova">Republic of Moldova</a>
+            <a href="countries/romania.html" data-country="Romania">Romania</a>
+            <a href="countries/russian_federation.html" data-country="Russian Federation">Russian Federation</a>
+            <a href="countries/rwanda.html" data-country="Rwanda">Rwanda</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">S</span><div class="countries-row">
+            <a href="countries/saint_kitts_and_nevis.html" data-country="Saint Kitts and Nevis">Saint Kitts and Nevis</a>
+            <a href="countries/saint_lucia.html" data-country="Saint Lucia">Saint Lucia</a>
+            <a href="countries/saint_vincent_and_the_grenadines.html" data-country="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</a>
+            <a href="countries/samoa.html" data-country="Samoa">Samoa</a>
+            <a href="countries/san_marino.html" data-country="San Marino">San Marino</a>
+            <a href="countries/sao_tome_and_principe.html" data-country="Sao Tome and Principe">Sao Tome and Principe</a>
+            <a href="countries/saudi_arabia.html" data-country="Saudi Arabia">Saudi Arabia</a>
+            <a href="countries/senegal.html" data-country="Senegal">Senegal</a>
+            <a href="countries/serbia.html" data-country="Serbia">Serbia</a>
+            <a href="countries/seychelles.html" data-country="Seychelles">Seychelles</a>
+            <a href="countries/sierra_leone.html" data-country="Sierra Leone">Sierra Leone</a>
+            <a href="countries/Singapore.html" data-country="Singapore">Singapore</a>
+            <a href="countries/slovakia.html" data-country="Slovakia">Slovakia</a>
+            <a href="countries/slovenia.html" data-country="Slovenia">Slovenia</a>
+            <a href="countries/solomon_islands.html" data-country="Solomon Islands">Solomon Islands</a>
+            <a href="countries/somalia.html" data-country="Somalia">Somalia</a>
+            <a href="countries/south_africa.html" data-country="South Africa">South Africa</a>
+            <a href="countries/spain.html" data-country="Spain">Spain</a>
+            <a href="countries/sri_lanka.html" data-country="Sri Lanka">Sri Lanka</a>
+            <a href="countries/state_of_palestine.html" data-country="State of Palestine">State of Palestine</a>
+            <a href="countries/sudan.html" data-country="Sudan">Sudan</a>
+            <a href="countries/suriname.html" data-country="Suriname">Suriname</a>
+            <a href="countries/sweden.html" data-country="Sweden">Sweden</a>
+            <a href="countries/switzerland.html" data-country="Switzerland">Switzerland</a>
+            <a href="countries/syrian_arab_republic.html" data-country="Syrian Arab Republic">Syrian Arab Republic</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">T</span><div class="countries-row">
+            <a href="countries/tajikistan.html" data-country="Tajikistan">Tajikistan</a>
+            <a href="countries/thailand.html" data-country="Thailand">Thailand</a>
+            <a href="countries/timor_leste.html" data-country="Timor-Leste">Timor-Leste</a>
+            <a href="countries/togo.html" data-country="Togo">Togo</a>
+            <a href="countries/tonga.html" data-country="Tonga">Tonga</a>
+            <a href="countries/trinidad_and_tobago.html" data-country="Trinidad and Tobago">Trinidad and Tobago</a>
+            <a href="countries/tunisia.html" data-country="Tunisia">Tunisia</a>
+            <a href="countries/turkiye.html" data-country="Türkiye">Türkiye</a>
+            <a href="countries/turkmenistan.html" data-country="Turkmenistan">Turkmenistan</a>
+            <a href="countries/tuvalu.html" data-country="Tuvalu">Tuvalu</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">U</span><div class="countries-row">
+            <a href="countries/uganda.html" data-country="Uganda">Uganda</a>
+            <a href="countries/ukraine.html" data-country="Ukraine">Ukraine</a>
+            <a href="countries/united_arab_emirates.html" data-country="United Arab Emirates">United Arab Emirates</a>
+            <a href="countries/united_kingdom_of_great_britain_and_northern_ireland.html" data-country="United Kingdom of Great Britain and Northern Ireland">United Kingdom of Great Britain and Northern Ireland</a>
+            <a href="countries/united_republic_of_tanzania.html" data-country="United Republic of Tanzania">United Republic of Tanzania</a>
+            <a href="countries/united_states_of_america.html" data-country="United States of America">United States of America</a>
+            <a href="countries/uruguay.html" data-country="Uruguay">Uruguay</a>
+            <a href="countries/uzbekistan.html" data-country="Uzbekistan">Uzbekistan</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">V</span><div class="countries-row">
+            <a href="countries/vanuatu.html" data-country="Vanuatu">Vanuatu</a>
+            <a href="countries/venezuela.html" data-country="Venezuela">Venezuela</a>
+            <a href="countries/viet_nam.html" data-country="Viet Nam">Viet Nam</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">Y</span><div class="countries-row">
+            <a href="countries/yemen.html" data-country="Yemen">Yemen</a>
+          </div></div>
+
+          <div class="letter-section"><span class="letter-label">Z</span><div class="countries-row">
+            <a href="countries/zambia.html" data-country="Zambia">Zambia</a>
+            <a href="countries/zimbabwe.html" data-country="Zimbabwe">Zimbabwe</a>
+          </div></div>
+        </div>
+
+        <!-- CRIME TAB -->
+        <div id="crimes" class="tab-content">
+          <div class="crime-issue-column">
+            <h3>Crimes</h3>
+            <a href="crimes/genocide.html" data-crime="Genocide">Genocide</a>
+            <a href="crimes/crimes_against_humanity.html" data-crime="Crimes Against Humanity">Crimes Against Humanity</a>
+            <a href="crimes/war_crimes.html" data-crime="War Crimes">War Crimes</a>
+            <a href="crimes/aggression.html" data-crime="Aggression">Aggression</a>
+            <h3>Related Issues</h3>
+            <a href="issues/jurisdiction.html" data-crime="Jurisdiction">Jurisdiction</a>
+            <a href="issues/immunities.html" data-crime="Immunities">Immunities</a>
+          </div>
+        </div>
+
+      </div><!-- /browse-section -->
+    </div><!-- /searchPage -->
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+
+<script>
+  function openPage(pageId, el) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    el.classList.add('active');
+  }
+
+  function openTab(tabName, e) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-buttons button').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    e.currentTarget.classList.add('active');
+  }
+
+  let allCases = [];
+
+  fetch("/cases/index.json")
+    .then(r => r.json())
+    .then(cases => {
+      allCases = cases;
+      document.getElementById("total-cases-count").textContent = cases.length;
+      updateCountryCounts();
+    })
+    .catch(err => {
+      document.getElementById("total-cases-count").textContent = "–";
+      console.error("Failed to load cases:", err);
+    });
+
+  function updateCountryCounts() {
+    document.querySelectorAll("[data-country]").forEach(el => {
+      const country = el.dataset.country;
+      const count = allCases.filter(c => c.country === country).length;
+      // Clear the element and rebuild with badge
+      el.textContent = country;
+      const badge = document.createElement("span");
+      badge.className = "count-badge";
+      badge.textContent = count;
+      el.appendChild(badge);
+    });
+  }
+</script>
+
+</body>
+</html>

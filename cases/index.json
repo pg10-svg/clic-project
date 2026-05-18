@@ -1,0 +1,191 @@
+[
+
+ {
+    "id": "clic-0001",
+    "clic_number": "CLIC Case 1",
+    "country": "Austria",
+    "court": "Supreme Court",
+    "crime_issue": ["Jurisdiction", "Genocide"],
+    "decision_date": "1994-07-13",
+    "link": "https://www.ris.bka.gv.at/Dokument.wxe?Abfrage=Justiz&Dokumentnummer=JJT_19940713_OGH0002_0150OS00099_9400000_000&Suchworte=RS0074103+",
+    "case_url": "cases/clic-0001.html",
+    "abstract_pdf": "pdfs/clic-0001-abstract.pdf",
+    "full_pdf": "pdfs/clic-0001-full-text.pdf",
+    "keywords": ["jurisidction", "genocide", "double criminality", "pre-trial detention"],
+    "area_of_law" : "Criminal Law",
+    "abstract_text": ["The accused was placed in pre-trial detention in Austria for allegedly participating in a genocide, murder, and arson raid against a Bosnian-Muslim village. The accused appealed the detention, arguing that Austria lacked criminal jurisdiction, that his actions were permitted under international humanitarian law, and that the prosecution risked double jeopardy with local or international tribunals. The Austrian Supreme Court upheld its jurisdiction under national law, ruling that double criminality was satisfied and that a restrictive reading of the Genocide Convention could not be used to create impunity during an ongoing war. The Court also dismissed the international law defense, stating that indiscriminate attacks against unarmed civilians are explicitly prohibited and thus do not violate the principle of legality. Finally, the appeal was fully dismissed as the Court found no risk of double jeopardy"]
+
+  },
+{
+  "id": "clic-0002",
+  "clic_number": "CLIC Case 2",
+  "country": "Germany",
+  "court": "Higher Regional Court of Düsseldorf",
+  "decision_date": "2021-06-16",
+  "decision_number": "7 StS 3/19",
+  "crime_issue": [
+    "Crimes Against Humanity"
+  ],
+  "case_url": "cases/clic-0002.html",
+  "link" : "https://nrwe.justiz.nrw.de/olgs/duesseldorf/j2021/7_StS_3_19_Urteil_20210616.html",
+  "abstract_pdf": "pdfs/clic-0002-abstract.pdf",
+  "full_pdf": "pdfs/clic-0002-full-text.pdf",
+    "area_of_law" : "Criminal Law",
+  "keywords": [
+    "crimes against humanity",
+    "enslavement",
+    "sexual slavery",
+    "Yazidi genocide",
+    "Islamic State",
+    "membership in terrorist organisation",
+    "arms embargo",
+    "universal jurisdiction"
+  ],
+  "abstract_text": "The Higher Regional Court Düsseldorf convicted three defendants in connection with their support for the Islamic State (IS) in Syria and Iraq. Defendant A., a German-Algerian woman who had travelled to Syria at age 15 and married an IS member, was convicted of membership in a foreign terrorist organisation and, in conjunction with that membership, of crimes against humanity through enslavement (with fatal result), persecution, and aiding and abetting rape, as well as serious deprivation of liberty, for holding seven Yazidi women and girls as slaves in her household. Her former parents-in-law, defendants C. and B., were convicted of supporting the IS through the procurement and transport of weapons accessories and the transfer of funds to their sons who were IS members. Defendant A. received a unified youth sentence of six years and six months; defendant C. received a total sentence of four years and six months; defendant B. received a total sentence of three years."
+},
+  {
+    "id": "clic-0003",
+    "clic_number": "CLIC Case 3",
+    "country": "Colombia",
+    "court": "Constitutional Court",
+    "crime_issue": "Genocide",
+    "decision_date": "2001-02-14",
+    "link": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=6390#0",
+    "case_url": "cases/clic-0003.html",
+  "abstract_pdf": "pdfs/clic-0003-abstract.pdf",
+  "full_pdf": "pdfs/clic-0003-full-text.pdf",
+    "keywords": ["genocide", "constitutional review", "political groups"],
+    "area_of_law" : "Constitutional Law",
+    "abstract_text": "A constitutional lawsuit was filed in Colombia challenging a penal provision that restricted the protection against the crime of genocide exclusively to targeted political groups \"acting within the margin of the law.\" The plaintiff and human rights advocates argued that this qualification stripped illegal, disobedient, or marginalized groups of protection, violating absolute constitutional guarantees to life, equality, and human dignity. Conversely, state authorities defended the restriction, claiming it protected legitimate military operations against insurgent forces and that any unlawful deaths would still be prosecuted under ordinary homicide laws. The Inspector General and civil society organizations countered that handling systematic group eradication through fragmented homicide charges creates a dangerously lenient loophole that distorts international treaties. Reviewing the challenge, the Constitutional Court emphasized that the domestic definition of genocide cannot be evaluated in isolation and must strictly comply with international human rights law, humanitarian law, and imperative ius cogens norms."
+  },
+  {
+    "id": "clic-0004",
+    "clic_number": "CLIC Case 4",
+    "country": "Colombia",
+    "court": "Constitutional Court",
+    "crime_issue": "Genocide",
+    "decision_date": "2009-07-22",
+    "link": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=185254#0",
+    "case_url": "cases/clic-0004.html",
+  "abstract_pdf": "pdfs/clic-0004-abstract.pdf",
+  "full_pdf": "pdfs/clic-0004-full-text.pdf",
+    "keywords": ["genocide", "constitutionality lawsuit"],
+    "area_of_law" : "Constitutional Law",
+    "abstract_text": "A public unconstitutionality lawsuit was filed before the Constitutional Court of Colombia challenging Article 101 of the Penal Code, which regulates the domestic crime of genocide. The plaintiff argued that requiring proof that acts were committed \"by reason of membership in a group\" imposed an unauthorized evidentiary burden, while providing lower sentences for non-lethal genocidal acts unlawfully treated group destruction as an attenuated offense. State authorities defended the statute, asserting that the intent phrase ensures legal clarity to distinguish genocide from ordinary homicides and that differential sentencing is justified because lethal acts cause greater objective harm. Conversely, human rights advocates and the Inspector General countered that under international standards, all genocidal methods equally threaten a group's existence and should receive uniform punishment. The Constitutional Court ultimately declared both provisions constitutional, ruling that the intent phrase properly mirrors international legal concepts to ensure strict legality. Finally, the Court concluded that the legislature possesses the valid constitutional discretion to graduate penalties based on the immediate, irreversible destruction of individual human lives."
+  },
+  {
+    "id": "clic-0005",
+    "clic_number": "CLIC Case 5",
+    "country": "Canada",
+    "court": "Supreme Court",
+    "crime_issue": ["Crimes Against Humanity", "Genocide"],
+    "decision_date": "2005-06-28",
+    "link": "https://decisions.scc-csc.ca/scc-csc/scc-csc/en/item/2273/index.do",
+    "case_url": "cases/clic-0005.html",
+  "abstract_pdf": "pdfs/clic-0005-abstract.pdf",
+  "full_pdf": "pdfs/clic-0005-full-text.pdf",
+    "keywords": ["genocide", "incitement to genocide", "crimes against humanity"],
+   "area_of_law" : "Migration Law",
+    "abstract_text": "A public deportation dispute before the Supreme Court of Canada evaluated whether a 1992 public speech delivered in Rwanda by permanent resident L\u00E9on Mugesera constituted incitement to genocide and a crime against humanity. The Canadian Minister of Citizenship and Immigration sought deportation, arguing that Mugesera\u2019s highly inflammatory rhetoric willfully encouraged Hutu listeners to eliminate the Tutsi population and political opposition. While the Federal Court of Appeal characterized the address as standard political rhetoric, the Supreme Court reversed this finding, ruling that a speaker's intent to prompt genocide can be validly inferred from clear words paired with an active, violent societal context. For the genocide charge, the Court clarified that under domestic and international law, public incitement requires a specific intent to destroy a protected group and must be evaluated based on the target audience's immediate understanding, without requiring a causal link to actual violence. Finally, regarding crimes against humanity, the Court held that while counseling murder was inapplicable due to a lack of proven resulting deaths, Mugesera\u2019s severe, discriminatory hate speech independently satisfied the international threshold for the crime of persecution."
+  },
+
+{
+    
+    "id": "clic-0006",
+    "clic_number": "CLIC Case 6",
+    "country": "United Kingdom of Great Britain and Northern Ireland",
+    "court": "House of Lords",
+    "crime_issue": ["Immunities"],
+    "decision_date": "1999-01-15",
+    "link": "https://www.uniset.ca/other/cs5/2000AC147.html",
+    "case_url": "cases/clic-0006.html",
+    "abstract_pdf": "pdfs/clic-0006-abstract.pdf",
+    "full_pdf": "pdfs/clic-0006-full-text.pdf",
+    "area_of_law" : ["Extradition Law", "Criminal Law"],
+    "abstract_text": "Senator Pinochet – the former head of state of Chile – was arrested in the United Kingdom upon the execution of a Spanish arrest warrant, alleging charges of inter alia torture and murder. Pinochet argued that his actions were covered by immunity under international law, which would prevent an extradition. However, the Law Lords rejected the applicant’s claim to immunity (with Lord Goff of Chieveley dissenting)."
+  },
+
+{
+    
+    "id": "clic-0007",
+    "clic_number": "CLIC Case 7",
+    "country": "Austria",
+    "court": "Supreme Adminstrative Court",
+    "crime_issue": ["War Crimes"],
+    "decision_date": "2024-02-29",
+    "link": "https://www.ris.bka.gv.at/Dokument.wxe?ResultFunctionToken=ae77eedc-8ca4-4438-a347-39e48312c973&Position=1&SkipToDocumentPage=True&Abfrage=Vwgh&Entscheidungsart=Undefined&Sammlungsnummer=&Index=&SucheNachRechtssatz=True&SucheNachText=True&GZ=&VonDatum=&BisDatum=17.05.2026&Norm=&ImRisSeitVonDatum=&ImRisSeitBisDatum=&ImRisSeit=Undefined&ResultPageSize=100&Suchworte=V%c3%b6lkermord&Dokumentnummer=JWT_2023180078_20240229L00",
+    "case_url": "cases/clic-0007.html",
+    "abstract_pdf": "pdfs/clic-0007-abstract.pdf",
+    "full_pdf": "pdfs/clic-0007-full-text.pdf",
+    "area_of_law" : ["Migration Law"],
+    "abstract_text": "A Syrian national's application for asylum in Austria was rejected on the grounds of a serious suspicion that he may have committed war crimes as a serviceman in the Syrian Army. This suspicion was based on a statement of the applicant in which he admitted that he was involved in two instances of violence against persons under his custody. The Court of first instance rejected the applicant’s claim that he acted under duress since the order to commit torture had been manifestly illegal. Additionally, it saw his affiliation to the Syrian Army as another implication for complicity to war crimes.\n The Supreme Administrative Court reversed the ruling based on procedural deficiencies. It held that the applicant’s statement alone did not have sufficient probative value for personal responsibility for war crimes, and that further inquiries would have had to have been undertaken by the Court of first instance. Similarly, the mere affiliation to the Syrian Army was not sufficient prove either."
+  },
+
+{
+    
+    "id": "clic-0008",
+    "clic_number": "CLIC Case 8",
+    "country": "Chile",
+    "court": "Supreme Court",
+    "crime_issue": ["Crimes Against Humanity"],
+    "decision_date": "2025-02-12",
+    "link": "https://juris.pjud.cl/busqueda?Corte_Suprema",
+    "case_url": "cases/clic-0008.html",
+    "abstract_pdf": "pdfs/clic-0008-abstract.pdf",
+    "full_pdf": "pdfs/clic-0008-full-text.pdf",
+    "area_of_law" : ["Criminal Law"],
+    "abstract_text": "The Supreme Court of Chile reviewed an appeal on points of law filed by C\u00E9sar Manr\u00EDquez Bravo regarding his 15-year prison sentence for the 1974 aggravated kidnapping and forced disappearance of two political opponents. The defense argued against the conviction by claiming the illicit retroactive application of a 2009 domestic law defining crimes against humanity, while also seeking the benefit of statutory limitations and the 1978 Amnesty Law. The Court first dismissed the appeal on procedural grounds, ruling that the defense\u2019s simultaneous demands for total acquittal and the application of amnesty or limitations contained legally incompatible contradictions. On the merits, the Court affirmed that classifying these state-sponsored abductions as crimes against humanity did not violate the principle of legality because the victims were targeted under a systematic regime policy of political persecution. Finally, invoking conventional international law, the Court concluded that crimes against humanity are subject to absolute imprescriptibility."
+  },
+
+{
+    
+    "id": "clic-0009",
+    "clic_number": "CLIC Case 9",
+    "country": "Chile",
+    "court": "Supreme Court",
+    "crime_issue": ["Crimes Against Humanity"],
+    "decision_date": "2019-10-24",
+    "link": "https://juris.pjud.cl/busqueda?Corte_Suprema",
+    "case_url": "cases/clic-0009.html",
+    "abstract_pdf": "pdfs/clic-0009-abstract.pdf",
+    "full_pdf": "pdfs/clic-0009-full-text.pdf",
+    "area_of_law" : ["Criminal Law"],
+    "abstract_text": "The Supreme Court of Chile reviewed an appeal on points of law filed by several former DINA agents challenging their prison sentences for the 1974 aggravated kidnapping and forced disappearance of a political opponent during \"Operaci\u00F3n Colombo.\" The defense sought to overturn the convictions by arguing that the lower courts relied on insufficient circumstantial evidence, failed to recognize the military defense of obedience to superior orders, and improperly denied a sentence reduction under the doctrine of gradual prescription. The Court dismissed the evidentiary challenges, ruling that the evaluation of circumstantial evidence remains the exclusive prerogative of trial judges and that the findings regarding the defendants' roles within the state apparatus were legally sound. Regarding the military defense, the Court held that obedience to superior orders is entirely inadmissible for crimes against humanity because state agents have an absolute obligation to refuse commands that violate fundamental human rights. Finally, the Court concluded that international jus cogens norms strictly prohibit any form of domestic statutory limitations for crimes against humanity, adding that the prescription period for a permanent crime like kidnapping cannot begin while the victim remains missing."
+  },
+{
+  "id": "clic-0010",
+  "clic_number": "CLIC Case 10",
+  "country": "Germany",
+  "court": "Higher Regional Court of Frankfurt",
+  "decision_date": "2021-11-30",
+  "decision_number": "5-3 StE 1/20 ",
+  "crime_issue": [
+    "Genocide",
+    "Crimes Against Humanity",
+    "War Crimes"
+  ],
+  "case_url": "cases/clic-0010.html",
+  "link" : "https://www.unodc.org/cld/uploads/res/case-law-doc/traffickingpersonscrimetype/deu/2021/olg_frankfurt_am_main_urteil_vom_30_11_2021_5-3_ste_120_html/Urteil_vom_30.11.2021_.pdf",
+  "abstract_pdf": "pdfs/clic-0010-abstract.pdf",
+  "full_pdf": "pdfs/clic-0010-full-text.pdf",
+    "area_of_law" : "Criminal Law",
+  "abstract_text": "The Higher Regional Court of Frankfurt am Main in Germany convicted a member of the foreign terrorist organization \"Islamic State\" (IS) of genocide, crimes against humanity, and war crimes. The prosecution arose from the defendant's purchase and enslavement of a Yazidi woman and her five-year-old daughter in Iraq, which culminated in the child's death from heatstroke after being forcibly tethered outside in extreme sunlight. In its legal findings, the Court determined that the severe, daily physical and psychological abuse inflicted upon the victims met the threshold for genocide because the defendant acted with the specific intent (\"dolus specialis\") to further the group's ideological campaign to destroy the Yazidi religious minority. The Court additionally established that these acts concurrently constituted crimes against humanity and war crimes, ruling that the fatal outcome was an aggravated consequence of violations perpetrated during a widespread civilian attack and a non-international armed conflict. Finally, presiding over a civil adhesion claim brought by the surviving mother, the Court applied Iraqi tort law to order the defendant to pay \u20AC50,000 in monetary compensation for the immense emotional distress resulting from her daughter's death."
+},
+
+{
+    
+    "id": "clic-0011",
+    "clic_number": "CLIC Case 11",
+    "country": "Ukraine",
+    "court": "Supreme Court",
+    "crime_issue": ["War Crimes", "Aggression"],
+    "decision_date": "2024-01-12",
+    "link": "https://reyestr.court.gov.ua/Review/117555176",
+    "case_url": "cases/clic-0011.html",
+    "abstract_pdf": "pdfs/clic-0011-abstract.pdf",
+    "full_pdf": "pdfs/clic-0011-full-text.pdf",
+    "area_of_law" : ["Criminal Law"],
+    "abstract_text": "The Grand Chamber of the Supreme Court of Ukraine modified the convictions of individuals prosecuted for participating in a pro-Russian illegal armed formation in the Luhansk region in 2014.\nThe Court ruled that low-raking combatants lacking military or political authority cannot be held liable under Article 437 of the Ukrainian Criminal Code, as the offense applies strictly to individuals capable of effectively controlling or influencing state-level decisions. \nHowever, the Court rejected defense claims that war crimes charges required a formally declared state of war, affirming that domestic and international humanitarian law applies automatically to any active armed conflict."
+  }
+
+]
