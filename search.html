@@ -519,7 +519,7 @@
   document.getElementById('query-heading').textContent = query ? `Search Results` : 'Browse All Cases';
 
   // ── Fetch ──
-  fetch('/cases/index.json')
+  fetch('./cases/index.json')
     .then(r => r.json())
     .then(cases => {
       allCases = cases;
