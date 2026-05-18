@@ -777,7 +777,7 @@
 
   let allCases = [];
 
-  fetch("/cases/index.json")
+  fetch("./cases/index.json")
     .then(r => r.json())
     .then(cases => {
       allCases = cases;
