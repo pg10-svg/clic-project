@@ -430,7 +430,7 @@
     return Array.isArray(c.crime_issue) ? c.crime_issue : [c.crime_issue];
   }
 
-  fetch("/cases/index.json")
+  fetch("./cases/index.json")
     .then(r => r.json())
     .then(cases => {
       allCases = cases.filter(c => c.country === countryName);
