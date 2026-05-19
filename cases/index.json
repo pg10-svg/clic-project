@@ -2,7 +2,7 @@
 
  {
     "id": "clic-0001",
-    "clic_number": "CLIC Case 1",
+    "clic_number": "CLIC Case 1 (Prosecutor v. Dusko c.",
     "country": "Austria",
     "court": "Supreme Court",
     "crime_issue": ["Jurisdiction", "Genocide"],
@@ -45,7 +45,7 @@
 },
   {
     "id": "clic-0003",
-    "clic_number": "CLIC Case 3",
+    "clic_number": "CLIC Case 3 (Marcela Adriana Rodriguez Gomez v. Colombia)",
     "country": "Colombia",
     "court": "Constitutional Court",
     "crime_issue": "Genocide",
@@ -60,7 +60,7 @@
   },
   {
     "id": "clic-0004",
-    "clic_number": "CLIC Case 4",
+    "clic_number": "CLIC Case 4 (Gonzalo Rodrigo Paz Mahecha v. Colombia)",
     "country": "Colombia",
     "court": "Constitutional Court",
     "crime_issue": "Genocide",
@@ -75,7 +75,7 @@
   },
   {
     "id": "clic-0005",
-    "clic_number": "CLIC Case 5",
+    "clic_number": "CLIC Case 5 (Mugesera v. Canada)",
     "country": "Canada",
     "court": "Supreme Court",
     "crime_issue": ["Crimes Against Humanity", "Genocide"],
@@ -92,7 +92,7 @@
 {
     
     "id": "clic-0006",
-    "clic_number": "CLIC Case 6",
+    "clic_number": "CLIC Case 6 (REGINA v. BOW STREET METROPOLITAN STIPENDIARY MAGISTRATE AND OTHERS, Ex parte PINOCHET UGARTE (No. 3))",
     "country": "United Kingdom of Great Britain and Northern Ireland",
     "court": "House of Lords",
     "crime_issue": ["Immunities"],
@@ -108,7 +108,7 @@
 {
     
     "id": "clic-0007",
-    "clic_number": "CLIC Case 7",
+    "clic_number": "CLIC Case 7 (M.A. v. Austria)",
     "country": "Austria",
     "court": "Supreme Adminstrative Court",
     "crime_issue": ["War Crimes"],
