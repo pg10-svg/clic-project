@@ -2,7 +2,7 @@
 
  {
     "id": "clic-0001",
-    "clic_number": "CLIC Case 1 (Prosecutor v. Dusko C.)",
+    "clic_number": "CLIC Case 1 (Prosecutor v. Dusko Cvjetkovic)",
     "country": "Austria",
     "court": "Supreme Court",
     "crime_issue": ["Jurisdiction", "Genocide"],
@@ -92,7 +92,7 @@
 {
     
     "id": "clic-0006",
-    "clic_number": "CLIC Case 6 (REGINA v. BOW STREET METROPOLITAN STIPENDIARY MAGISTRATE AND OTHERS, Ex parte PINOCHET UGARTE (No. 3))",
+    "clic_number": "CLIC Case 6 (Regina v. Bow Street Metropolitan Stipendiary Magistrate and others, Ex parte Pinochet Ugarte No. 3)",
     "country": "United Kingdom of Great Britain and Northern Ireland",
     "court": "House of Lords",
     "crime_issue": ["Immunities"],
@@ -124,7 +124,7 @@
 {
     
     "id": "clic-0008",
-    "clic_number": "CLIC Case 8",
+    "clic_number": "CLIC Case 8 (Prosecutor v. César Manríquez Bravo)",
     "country": "Chile",
     "court": "Supreme Court",
     "crime_issue": ["Crimes Against Humanity"],
@@ -140,7 +140,7 @@
 {
     
     "id": "clic-0009",
-    "clic_number": "CLIC Case 9",
+    "clic_number": "CLIC Case 9 (Prosecutor v. Raúl Iturriaga)",
     "country": "Chile",
     "court": "Supreme Court",
     "crime_issue": ["Crimes Against Humanity"],
@@ -175,7 +175,7 @@
 {
     
     "id": "clic-0011",
-    "clic_number": "CLIC Case 11",
+    "clic_number": "CLIC Case 11 (Prosecutor v. Ihor Biedulin, Mykola Vynohradov, Oleksandr Buriakov and Dmytro Telehin)",
     "country": "Ukraine",
     "court": "Supreme Court",
     "crime_issue": ["War Crimes", "Aggression"],
