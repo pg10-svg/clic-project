@@ -186,6 +186,20 @@
     "full_pdf": "pdfs/clic-0011-full-text.pdf",
     "area_of_law" : ["Criminal Law"],
     "abstract_text": "The Grand Chamber of the Supreme Court of Ukraine modified the convictions of individuals prosecuted for participating in a pro-Russian illegal armed formation in the Luhansk region in 2014.\nThe Court ruled that low-raking combatants lacking military or political authority cannot be held liable under Article 437 of the Ukrainian Criminal Code, as the offense applies strictly to individuals capable of effectively controlling or influencing state-level decisions. \nHowever, the Court rejected defense claims that war crimes charges required a formally declared state of war, affirming that domestic and international humanitarian law applies automatically to any active armed conflict."
+  },
+
+     "id": "clic-001",
+    "clic_number": "CLIC Case 12",
+    "country": "Austria",
+    "court": "Federal Administrative Court",
+    "crime_issue": ["War Crimes", "Crimes Against Humanity"],
+    "decision_date": "2017-07-27",
+    "link": "https://www.ris.bka.gv.at/Dokument.wxe?ResultFunctionToken=0f129ce6-f355-477e-bf85-6837306ca3a7&Position=1&SkipToDocumentPage=True&Abfrage=Bvwg&Entscheidungsart=Undefined&SucheNachRechtssatz=True&SucheNachText=True&GZ=&VonDatum=01.01.2014&BisDatum=21.05.2026&Norm=AsylG+2005+%c2%a76+Abs1+Z2&ImRisSeitVonDatum=&ImRisSeitBisDatum=&ImRisSeit=Undefined&ResultPageSize=100&Suchworte=Kriegsverbrechen&Dokumentnummer=BVWGT_20170727_W112_1419084_1_00",
+    "case_url": "cases/clic-0012.html",
+    "abstract_pdf": "pdfs/clic-0012-abstract.pdf",
+    "full_pdf": "pdfs/clic-0012-full-text.pdf",
+    "area_of_law" : ["Migration Law"],
+    "abstract_text": ""
   }
 
 ]
